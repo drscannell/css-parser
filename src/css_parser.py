@@ -13,44 +13,83 @@ class CssTokenizer:
 			if len(buftokens) > 0:
 				tokens += buftokens
 				buffer = []
+			else:
+				print '||| not tokens: %s |||' % (bufstr)
 		return tokens
 				
 	
 	@classmethod
 	def tokenize_buffer(cls, txt):
+		# comment start
+		m = re.match(r'(.*)(/\*)', txt)
+		if m:
+			return [{
+				'txt': m.group(1),
+				'type': '<content />'
+				},{
+				'txt': m.group(2).strip(),
+				'type': '<comment>'
+				}]
+		# comment end
+		m = re.match(r'(.*)(\*/)', txt)
+		if m:
+			return [{
+				'txt': m.group(1),
+				'type': '<content />'
+				},{
+				'txt': m.group(2).strip(),
+				'type': '</comment>'
+				}]
 		# block start
 		m = re.match(r'([^{}]*)(\{)', txt)
 		if m:
 			return [{
 				'txt': m.group(1).strip(),
-				'type': 'selector'
+				'type': '<selector />'
 				},{
 				'txt': m.group(2).strip(),
-				'type': 'blockstart'
+				'type': '<block>'
 				}]
 		# block end
-		m = re.match(r'\s*(\})', txt)
+		m = re.match(r'(.*)(\})', txt)
 		if m:
 			return [{
 				'txt': m.group(1).strip(),
-				'type': 'blockend'
+				'type': '<content />'
+				},{
+				'txt': m.group(2).strip(),
+				'type': '</block>'
 				}]
+		# declaration
 		m = re.match(r'([^:;]*):([^;]*);', txt)
 		if m:
 			return [{
 				'txt': m.group(1).strip(),
-				'type': 'decl_property'
+				'type': '<property />'
 				},{
 				'txt': m.group(2).strip(),
-				'type': 'decl_value'
+				'type': '<value />'
 				}]
 		return []
 
 
-txt = '''p.indent {
+txt = '''/* sample stylesheet */
+p.indent {
 	text-indent:0em;
 	margin: 0 1em 0 1em;
-}'''
+}
+
+div.hooray
+{
+	font-family: Helvetica, sans-serif;
+} /* remember the alamo */
+
+/*
+ * and remember
+ * to brush your
+ * teeth
+ */
+ '''
 
 print ''
 tokens = CssTokenizer.tokenize(txt)
