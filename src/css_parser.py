@@ -1,5 +1,10 @@
 import re
 
+class Token:
+	def __init__(self, tokentype, tokentext):
+		self.tokentype = tokentype
+		self.tokentext = tokentext
+
 class CssTokenizer:
 
 	@classmethod
@@ -13,64 +18,45 @@ class CssTokenizer:
 			if len(buftokens) > 0:
 				tokens += buftokens
 				buffer = []
-			else:
-				print '||| not tokens: %s |||' % (bufstr)
 		return tokens
 				
+	commentstart = re.compile(r'(.*)(/\*)', re.DOTALL)
+	commentend   = re.compile(r'(.*)(\*/)', re.DOTALL)
+	blockstart   = re.compile(r'([^{}]*)(\{)', re.DOTALL)
+	blockend     = re.compile(r'(.*)(\})', re.DOTALL)
+	declaration  = re.compile(r'([^:;]*):([^;]*);', re.DOTALL)
 	
 	@classmethod
 	def tokenize_buffer(cls, txt):
+		tokens = []
 		# comment start
-		m = re.match(r'(.*)(/\*)', txt)
+		m = cls.commentstart.match(txt)
 		if m:
-			return [{
-				'txt': m.group(1),
-				'type': '<content />'
-				},{
-				'txt': m.group(2).strip(),
-				'type': '<comment>'
-				}]
+			tokens.append(Token('<content/>', m.group(1)))
+			tokens.append(Token('<comment>', m.group(2)))
 		# comment end
-		m = re.match(r'(.*)(\*/)', txt)
+		m = cls.commentend.match(txt)
 		if m:
-			return [{
-				'txt': m.group(1),
-				'type': '<content />'
-				},{
-				'txt': m.group(2).strip(),
-				'type': '</comment>'
-				}]
+			tokens.append(Token('<content/>', m.group(1)))
+			tokens.append(Token('</comment>', m.group(2)))
 		# block start
-		m = re.match(r'([^{}]*)(\{)', txt)
+		m = cls.blockstart.match(txt)
 		if m:
-			return [{
-				'txt': m.group(1).strip(),
-				'type': '<selector />'
-				},{
-				'txt': m.group(2).strip(),
-				'type': '<block>'
-				}]
+			tokens.append(Token('<selector/>', m.group(1)))
+			tokens.append(Token('<block>', m.group(2)))
 		# block end
-		m = re.match(r'(.*)(\})', txt)
+		m = cls.blockend.match(txt)
 		if m:
-			return [{
-				'txt': m.group(1).strip(),
-				'type': '<content />'
-				},{
-				'txt': m.group(2).strip(),
-				'type': '</block>'
-				}]
+			tokens.append(Token('<content/>', m.group(1)))
+			tokens.append(Token('</block>', m.group(2)))
 		# declaration
-		m = re.match(r'([^:;]*):([^;]*);', txt)
+		m = cls.declaration.match(txt)
 		if m:
-			return [{
-				'txt': m.group(1).strip(),
-				'type': '<property />'
-				},{
-				'txt': m.group(2).strip(),
-				'type': '<value />'
-				}]
-		return []
+			tokens.append(Token('<property/>', m.group(1)))
+			tokens.append(Token('<value/>', m.group(2)))
+		return tokens
+
+
 
 
 txt = '''/* sample stylesheet */
@@ -94,6 +80,6 @@ div.hooray
 print ''
 tokens = CssTokenizer.tokenize(txt)
 for t in tokens:
-	print '%s\t\t%s' % (t['type'],t['txt'])
+	print '%s\t\t%s' % (t.tokentype, t.tokentext)
 print ''
 
