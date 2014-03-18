@@ -1,0 +1,13 @@
+# for vim temp files
+*~
+*.swp
+*.swo
+
+# OSX
+.DS_Store
+
+# node
+node_modules
+
+# CoffeeScript
+lib/*.js
