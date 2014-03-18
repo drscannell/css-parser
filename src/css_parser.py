@@ -54,9 +54,23 @@ class CssTokenizer:
 		if m:
 			tokens.append(Token('<property/>', m.group(1)))
 			tokens.append(Token('<value/>', m.group(2)))
+		return cls.clear_empty_tokens(tokens)
+
+	@classmethod
+	def clear_empty_tokens(cls, tokens):
+		to_remove = []
+		for token in tokens:
+			if token.tokentext == '':
+				to_remove.append(token)
+		for token in to_remove:
+			tokens.remove(token)
 		return tokens
 
+# --- tests ---
 
+tokens = CssTokenizer.tokenize_buffer('/*')
+assert len(tokens) == 1
+assert tokens[0].tokentype == '<comment>'
 
 
 txt = '''/* sample stylesheet */
@@ -77,9 +91,10 @@ div.hooray
  */
  '''
 
+'''
 print ''
 tokens = CssTokenizer.tokenize(txt)
 for t in tokens:
 	print '%s\t\t%s' % (t.tokentype, t.tokentext)
 print ''
-
+'''
