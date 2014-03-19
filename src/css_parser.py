@@ -68,33 +68,3 @@ class CssTokenizer:
 
 # --- tests ---
 
-tokens = CssTokenizer.tokenize_buffer('/*')
-assert len(tokens) == 1
-assert tokens[0].tokentype == '<comment>'
-
-
-txt = '''/* sample stylesheet */
-p.indent {
-	text-indent:0em;
-	margin: 0 1em 0 1em;
-}
-
-div.hooray
-{
-	font-family: Helvetica, sans-serif;
-} /* remember the alamo */
-
-/*
- * and remember
- * to brush your
- * teeth
- */
- '''
-
-'''
-print ''
-tokens = CssTokenizer.tokenize(txt)
-for t in tokens:
-	print '%s\t\t%s' % (t.tokentype, t.tokentext)
-print ''
-'''
