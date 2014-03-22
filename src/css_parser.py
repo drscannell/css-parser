@@ -8,6 +8,8 @@ class Token:
 	BLOCK_END = '}'
 	COLON = ':'
 	SEMICOLON = ';'
+	DOUBLEQUOTE = '"'
+	SINGLEQUOTE = '\''
 	TXT = 'txt'
 	WHITESPACE = 'whitespace'
 	# deprecated
@@ -54,6 +56,10 @@ class CssTokenizer:
 			tokens += cls.colon(txt)
 		elif cls.semicolon(txt):
 			tokens += cls.semicolon(txt)
+		elif cls.singlequote(txt):
+			tokens += cls.singlequote(txt)
+		elif cls.doublequote(txt):
+			tokens += cls.doublequote(txt)
 		elif cls.block_end(txt):
 			tokens += cls.block_end(txt)
 		return tokens
@@ -129,6 +135,30 @@ class CssTokenizer:
 					Token(Token.TXT, m.group(2)),
 					Token(Token.WHITESPACE, m.group(3)),
 					Token(Token.SEMICOLON, m.group(4))]
+		else:
+			return None
+
+	@classmethod
+	def singlequote(cls, txt):
+		p = re.compile(r'(\s*)([^\']*?)(\s*)(\')', re.DOTALL)
+		m = p.match(txt)
+		if m:
+			return [Token(Token.WHITESPACE, m.group(1)),
+					Token(Token.TXT, m.group(2)),
+					Token(Token.WHITESPACE, m.group(3)),
+					Token(Token.SINGLEQUOTE, m.group(4))]
+		else:
+			return None
+
+	@classmethod
+	def doublequote(cls, txt):
+		p = re.compile(r'(\s*)([^"]*?)(\s*)(")', re.DOTALL)
+		m = p.match(txt)
+		if m:
+			return [Token(Token.WHITESPACE, m.group(1)),
+					Token(Token.TXT, m.group(2)),
+					Token(Token.WHITESPACE, m.group(3)),
+					Token(Token.DOUBLEQUOTE, m.group(4))]
 		else:
 			return None
 

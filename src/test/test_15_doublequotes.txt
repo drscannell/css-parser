@@ -1,0 +1,25 @@
+.sans {
+	background: url("images/image.jpg");
+}
+
+^__EXPECTED
+
+txt
+whitespace
+{
+whitespace
+txt
+:
+whitespace
+txt
+"
+txt
+"
+txt
+;
+whitespace
+}
+
+whitespace
+
+$__EXPECTED
