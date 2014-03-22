@@ -31,45 +31,75 @@ class CssTokenizer:
 				buffer = []
 		return tokens
 				
-	commentstart = re.compile(r'(.*)(/\*)', re.DOTALL)
-	commentend   = re.compile(r'(.*)(\*/)', re.DOTALL)
-	blockstart   = re.compile(r'(\s*)([^{}]*)(\{)', re.DOTALL)
-	blockend     = re.compile(r'(.*)(\})', re.DOTALL)
-	declaration  = re.compile(r'([^:;]*):([^;]*);', re.DOTALL)
-	
 	@classmethod
 	def tokenize_buffer(cls, txt):
 		tokens = []
 		# comment start
-		m = cls.commentstart.match(txt)
-		if m:
-			tokens.append(Token(Token.TXT, m.group(1)))
-			tokens.append(Token(Token.COMMENT_START, m.group(2)))
-		# comment end
-		m = cls.commentend.match(txt)
-		if m:
-			tokens.append(Token(Token.TXT, m.group(1)))
-			tokens.append(Token(Token.COMMENT_END, m.group(2)))
-		# block start
-		m = cls.blockstart.match(txt)
-		if m:
-			tokens.append(Token(Token.WHITESPACE, m.group(1)))
-			tokens.append(Token(Token.SELECTOR, m.group(2)))
-			tokens.append(Token(Token.BLOCK_START, m.group(3)))
-		# block end
-		m = cls.blockend.match(txt)
-		if m:
-			tokens.append(Token(Token.TXT, m.group(1)))
-			tokens.append(Token(Token.BLOCK_END, m.group(2)))
-		# declaration
-		m = cls.declaration.match(txt)
-		if m:
-			tokens.append(Token(Token.PROPERTY, m.group(1)))
-			tokens.append(Token(Token.VALUE, m.group(2)))
+		if cls.comment_start(txt):
+			tokens += cls.comment_start(txt)
+		elif cls.comment_end(txt):
+			tokens += cls.comment_end(txt)
+		elif cls.block_start(txt):
+			tokens += cls.block_start(txt)
+		elif cls.block_end(txt):
+			tokens += cls.block_end(txt)
+
 		tokens = cls.clear_empty_tokens(tokens)
 		tokens = cls.identify_whitespace_tokens(tokens)
 		return tokens
 
+	@classmethod
+	def comment_start(cls, txt):
+		p = re.compile(r'(.*)(/\*)', re.DOTALL)
+		m = p.match(txt)
+		if m:
+			return [Token(Token.TXT, m.group(1)),
+					Token(Token.COMMENT_START, m.group(2))]
+		else:
+			return None
+		
+	@classmethod
+	def comment_end(cls, txt):
+		p = re.compile(r'(.*)(\*/)', re.DOTALL)
+		m = p.match(txt)
+		if m:
+			return [Token(Token.TXT, m.group(1)),
+					Token(Token.COMMENT_END, m.group(2))]
+		else:
+			return None
+
+	@classmethod
+	def block_start(cls, txt):
+		p = re.compile(r'(\s*)([^{}]*)(\{)', re.DOTALL)
+		m = p.match(txt)
+		if m:
+			return [Token(Token.WHITESPACE, m.group(1)),
+					Token(Token.SELECTOR, m.group(2)),
+					Token(Token.BLOCK_START, m.group(3))]
+		else:
+			return None
+
+	@classmethod
+	def block_end(cls, txt):
+		p = re.compile(r'(.*)(\})', re.DOTALL)
+		m = p.match(txt)
+		if m:
+			return [Token(Token.TXT, m.group(1)),
+					Token(Token.BLOCK_END, m.group(2))]
+		else:
+			return None
+
+	@classmethod
+	def declaration(cls, txt):
+		p = re.compile(r'([^:;]*):([^;]*);', re.DOTALL)
+		m = p.match(txt)
+		if m:
+			return [Token(Token.PROPERTY, m.group(1)),
+					Token(Token.VALUE, m.group(2))]
+		else:
+			return None
+	
+	
 	@classmethod
 	def clear_empty_tokens(cls, tokens):
 		to_remove = []
