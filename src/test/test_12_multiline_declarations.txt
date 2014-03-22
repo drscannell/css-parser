@@ -1,0 +1,38 @@
+body {
+	margin:
+	0;
+	text-indent
+	:0;
+	padding:0
+	;
+}
+
+^__EXPECTED
+
+txt
+whitespace
+{
+whitespace
+txt
+:
+whitespace
+txt
+;
+whitespace
+txt
+whitespace
+:
+txt
+;
+whitespace
+txt
+:
+txt
+whitespace
+;
+whitespace
+}
+
+whitespace
+
+$__EXPECTED

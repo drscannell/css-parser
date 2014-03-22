@@ -110,7 +110,7 @@ class CssTokenizer:
 
 	@classmethod
 	def colon(cls, txt):
-		p = re.compile(r'(\s*)([^:;]*)(\s*)(:)', re.DOTALL)
+		p = re.compile(r'(\s*)([^:;]*?)(\s*)(:)', re.DOTALL)
 		m = p.match(txt)
 		if m:
 			return [Token(Token.WHITESPACE, m.group(1)),
@@ -122,7 +122,7 @@ class CssTokenizer:
 
 	@classmethod
 	def semicolon(cls, txt):
-		p = re.compile(r'(\s*)([^:;]*)(\s*)(;)', re.DOTALL)
+		p = re.compile(r'(\s*)([^:;]*?)(\s*)(;)', re.DOTALL)
 		m = p.match(txt)
 		if m:
 			return [Token(Token.WHITESPACE, m.group(1)),
