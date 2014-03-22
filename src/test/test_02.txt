@@ -1,0 +1,22 @@
+/* ======== reset ======== */
+div,span,blockquote {margin:0;padding:0;}
+
+
+^__EXPECTED
+/*
+txt
+*/
+
+whitespace
+
+selector
+{
+prop
+val
+prop
+val
+}
+
+whitespace
+
+$__EXPECTED

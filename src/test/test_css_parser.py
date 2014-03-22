@@ -1,3 +1,5 @@
+import os
+import re
 from css_parser import CssTokenizer
 
 class TokenizerTest:
@@ -8,14 +10,34 @@ class TokenizerTest:
 	def test(self):
 		assert [t.tokentype for t in self.tokens] == self.expected
 
+def read_tokenizer_file(filename):
+	src = os.path.dirname(os.path.realpath(__file__))
+	path = os.path.join(src,filename)
+	f = open(path, 'r')
+	txt = f.read()
+	f.close()
+	pattern = re.compile(r'^(.*)\^__EXPECTED\n(.*)\$__EXPECTED.*$', re.DOTALL)
+	m = pattern.match(txt)
+	if m:
+		return m.group(1), parse_list(m.group(2))
+	else:
+		raise Exception('could not parse test file')
+
+def parse_list(txt):
+	items = []
+	for item in txt.split('\n'):
+		if item.strip() != '':
+			items.append(item)
+	return items
+
+
 class TestCases:
+
+
 	def test_tokenize(self):
 		args = [
-			('/* comment*/',
-				['/*','txt','*/']),
-			('/* comment*/\nspan{margin:0;}',
-				['/*','txt','*/','selector',
-				'{','prop','val','}'])
+			read_tokenizer_file('test_01.txt'),
+			read_tokenizer_file('test_02.txt')
 				]
 
 		for args_tuple in args:
