@@ -18,7 +18,6 @@ val
 whitespace
 
 selector
-whitespace
 {
 prop
 val
@@ -27,7 +26,6 @@ val
 whitespace
 
 selector
-whitespace
 {
 whitespace
 prop
