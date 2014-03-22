@@ -1,12 +1,12 @@
 import os
 import re
-from css_parser import CssTokenizer
+from css_parser.tokenizer import Tokenizer
 
 class TokenizerTest:
 	def __init__(self,txt,expected):
 		self.txt = txt
 		self.expected = expected
-		self.tokens = CssTokenizer.tokenize(self.txt)
+		self.tokens = Tokenizer.tokenize(self.txt)
 	def test(self):
 		assert [t.tokentype for t in self.tokens] == self.expected
 
