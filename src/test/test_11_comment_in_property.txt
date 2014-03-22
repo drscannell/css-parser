@@ -1,0 +1,25 @@
+body {
+	margin /* comment */ :0;
+}
+
+^__EXPECTED
+
+txt
+whitespace
+{
+whitespace
+txt
+whitespace
+/*
+txt
+*/
+whitespace
+:
+txt
+;
+whitespace
+}
+
+whitespace
+
+$__EXPECTED
