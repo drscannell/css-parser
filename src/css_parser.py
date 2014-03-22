@@ -4,13 +4,16 @@ class Token:
 	
 	COMMENT_START = '/*'
 	COMMENT_END = '*/'
-	SELECTOR = 'selector'
 	BLOCK_START = '{'
 	BLOCK_END = '}'
-	PROPERTY = 'prop'
-	VALUE = 'val'
+	COLON = ':'
+	SEMICOLON = ';'
 	TXT = 'txt'
 	WHITESPACE = 'whitespace'
+	# deprecated
+	SELECTOR = 'selector'
+	PROPERTY = 'prop'
+	VALUE = 'val'
 
 	def __init__(self, tokentype, tokentext):
 		self.tokentype = tokentype
@@ -47,8 +50,10 @@ class CssTokenizer:
 			tokens += cls.comment_end(txt)
 		elif cls.block_start(txt):
 			tokens += cls.block_start(txt)
-		elif cls.declaration(txt):
-			tokens += cls.declaration(txt)
+		elif cls.colon(txt):
+			tokens += cls.colon(txt)
+		elif cls.semicolon(txt):
+			tokens += cls.semicolon(txt)
 		elif cls.block_end(txt):
 			tokens += cls.block_end(txt)
 		return tokens
@@ -100,6 +105,30 @@ class CssTokenizer:
 		if m:
 			return [Token(Token.TXT, m.group(1)),
 					Token(Token.BLOCK_END, m.group(2))]
+		else:
+			return None
+
+	@classmethod
+	def colon(cls, txt):
+		p = re.compile(r'(\s*)([^:;]*)(\s*)(:)', re.DOTALL)
+		m = p.match(txt)
+		if m:
+			return [Token(Token.WHITESPACE, m.group(1)),
+					Token(Token.TXT, m.group(2)),
+					Token(Token.WHITESPACE, m.group(3)),
+					Token(Token.COLON, m.group(4))]
+		else:
+			return None
+
+	@classmethod
+	def semicolon(cls, txt):
+		p = re.compile(r'(\s*)([^:;]*)(\s*)(;)', re.DOTALL)
+		m = p.match(txt)
+		if m:
+			return [Token(Token.WHITESPACE, m.group(1)),
+					Token(Token.TXT, m.group(2)),
+					Token(Token.WHITESPACE, m.group(3)),
+					Token(Token.SEMICOLON, m.group(4))]
 		else:
 			return None
 

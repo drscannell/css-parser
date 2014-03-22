@@ -11,8 +11,10 @@ body { margin:0; }
 
 txt
 {
-prop
-val
+txt
+:
+txt
+;
 }
 
 whitespace
@@ -20,8 +22,10 @@ whitespace
 txt
 whitespace
 {
-prop
-val
+txt
+:
+txt
+;
 }
 
 whitespace
@@ -30,8 +34,10 @@ txt
 whitespace
 {
 whitespace
-prop
-val
+txt
+:
+txt
+;
 whitespace
 }
 

@@ -1,21 +1,21 @@
-body /* comment */{
+body { /* comment */
 	margin:0;
 }
-
-
-
 
 ^__EXPECTED
 
 txt
 whitespace
+{
+whitespace
 /*
 txt
 */
-{
 whitespace
-prop
-val
+txt
+:
+txt
+;
 whitespace
 }
 

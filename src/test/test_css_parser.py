@@ -40,7 +40,10 @@ class TestCases:
 			'test_03_single_line_rules.txt',
 			'test_04_multi_line_rules.txt',
 			'test_05_commented_rule.txt',
-			'test_06_inline_comments.txt']
+			'test_06_comment_in_selector.txt',
+			'test_07_comment_after_declaration.txt',
+			'test_08_comment_after_blockstart.txt',
+			'test_09_commented_declaration.txt']
 
 		for filename in testfiles:
 			yield self.check_tokenize, filename

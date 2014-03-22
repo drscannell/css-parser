@@ -1,10 +1,11 @@
-/*body {
-	margin:1em;
-}*/
+body {
+	margin:0; /* comment */
+}
+
+
 
 ^__EXPECTED
 
-/*
 txt
 whitespace
 {
@@ -14,8 +15,11 @@ txt
 txt
 ;
 whitespace
-}
+/*
+txt
 */
+whitespace
+}
 
 whitespace
 

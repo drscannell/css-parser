@@ -12,10 +12,14 @@ whitespace
 txt
 whitespace
 {
-prop
-val
-prop
-val
+txt
+:
+txt
+;
+txt
+:
+txt
+;
 }
 
 whitespace

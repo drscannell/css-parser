@@ -1,21 +1,21 @@
-/*body {
-	margin:1em;
-}*/
+body {
+	/*margin:0;*/
+}
 
 ^__EXPECTED
 
-/*
 txt
 whitespace
 {
 whitespace
+/*
 txt
 :
 txt
 ;
+*/
 whitespace
 }
-*/
 
 whitespace
 

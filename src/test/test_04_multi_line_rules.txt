@@ -25,8 +25,10 @@ body
 txt
 {
 whitespace
-prop
-val
+txt
+:
+txt
+;
 whitespace
 }
 
@@ -36,8 +38,10 @@ txt
 whitespace
 {
 whitespace
-prop
-val
+txt
+:
+txt
+;
 whitespace
 }
 
@@ -47,8 +51,10 @@ txt
 whitespace
 {
 whitespace
-prop
-val
+txt
+:
+txt
+;
 whitespace
 }
 
@@ -58,8 +64,10 @@ txt
 whitespace
 {
 whitespace
-prop
-val
+txt
+:
+txt
+;
 whitespace
 }
 
@@ -69,8 +77,10 @@ txt
 whitespace
 {
 whitespace
-prop
-val
+txt
+:
+txt
+;
 whitespace
 }
 
