@@ -36,7 +36,8 @@ class TestCases:
 	def test_tokenize(self):
 		testfiles = [
 			'test_01_comments.txt',
-			'test_02_trailing_whitespace.txt']
+			'test_02_trailing_whitespace.txt',
+			'test_03_single_line_rules.txt']
 
 		for filename in testfiles:
 			yield self.check_tokenize, filename
@@ -46,6 +47,6 @@ class TestCases:
 		print 'test file: %s' % (filename)
 		print 'input: %s' % (test.txt)
 		print 'expected: %s' % (test.expected)
-		print 'observed: %s' % ([t.tokentype for t in test.tokens])
+		print '\nobserved: %s' % ([t.tokentype for t in test.tokens])
 		test.test()
 

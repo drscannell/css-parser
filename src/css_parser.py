@@ -55,10 +55,10 @@ class CssTokenizer:
 
 	@classmethod
 	def comment_start(cls, txt):
-		p = re.compile(r'(.*)(/\*)', re.DOTALL)
+		p = re.compile(r'(\s*)(/\*)', re.DOTALL)
 		m = p.match(txt)
 		if m:
-			return [Token(Token.TXT, m.group(1)),
+			return [Token(Token.WHITESPACE, m.group(1)),
 					Token(Token.COMMENT_START, m.group(2))]
 		else:
 			return None
@@ -86,6 +86,12 @@ class CssTokenizer:
 
 	@classmethod
 	def block_end(cls, txt):
+		'''
+		Instead of capturing only preceding whitespace,
+		captures anything. If there are syntax errors, 
+		the block_end will keep them from polluting 
+		subsequent rules.
+		'''
 		p = re.compile(r'(.*)(\})', re.DOTALL)
 		m = p.match(txt)
 		if m:
@@ -96,11 +102,12 @@ class CssTokenizer:
 
 	@classmethod
 	def declaration(cls, txt):
-		p = re.compile(r'([^:;]*):([^;]*);', re.DOTALL)
+		p = re.compile(r'(\s*)([^:;]*):([^;]*);', re.DOTALL)
 		m = p.match(txt)
 		if m:
-			return [Token(Token.PROPERTY, m.group(1)),
-					Token(Token.VALUE, m.group(2))]
+			return [Token(Token.WHITESPACE, m.group(1)),
+					Token(Token.PROPERTY, m.group(2)),
+					Token(Token.VALUE, m.group(3))]
 		else:
 			return None
 	
