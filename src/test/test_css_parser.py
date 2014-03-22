@@ -37,7 +37,10 @@ class TestCases:
 		testfiles = [
 			'test_01_comments.txt',
 			'test_02_trailing_whitespace.txt',
-			'test_03_single_line_rules.txt']
+			'test_03_single_line_rules.txt',
+			'test_04_multi_line_rules.txt',
+			'test_05_commented_rule.txt',
+			'test_06_inline_comments.txt']
 
 		for filename in testfiles:
 			yield self.check_tokenize, filename

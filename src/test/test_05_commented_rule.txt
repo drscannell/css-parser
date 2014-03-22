@@ -1,28 +1,25 @@
-body{margin:0;}
+/*body {
+	margin:1em;
+}*/
 
-body {margin:0;}
-
-body { margin:0; }
-
+body {
+	margin:0;
+}
 
 
 
 ^__EXPECTED
 
-txt
-{
-prop
-val
-}
-
-whitespace
-
+/*
 txt
 whitespace
 {
+whitespace
 prop
 val
+whitespace
 }
+*/
 
 whitespace
 

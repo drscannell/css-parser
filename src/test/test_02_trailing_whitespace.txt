@@ -9,7 +9,7 @@ txt
 
 whitespace
 
-selector
+txt
 whitespace
 {
 prop

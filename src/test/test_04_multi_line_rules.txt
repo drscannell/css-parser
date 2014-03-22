@@ -1,31 +1,72 @@
-body{margin:0;}
+body{
+margin:0;
+}
 
-body {margin:0;}
+body {
+margin:0;
+}
 
-body { margin:0; }
+body {
+margin:0; 
+}
 
+body {
+	margin:0;
+}
 
+body
+{
+	margin:0;
+}
 
 
 ^__EXPECTED
 
-selector
+txt
 {
+whitespace
 prop
 val
+whitespace
 }
 
 whitespace
 
-selector
+txt
+whitespace
 {
+whitespace
 prop
 val
+whitespace
 }
 
 whitespace
 
-selector
+txt
+whitespace
+{
+whitespace
+prop
+val
+whitespace
+}
+
+whitespace
+
+txt
+whitespace
+{
+whitespace
+prop
+val
+whitespace
+}
+
+whitespace
+
+txt
+whitespace
 {
 whitespace
 prop

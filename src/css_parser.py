@@ -55,11 +55,13 @@ class CssTokenizer:
 
 	@classmethod
 	def comment_start(cls, txt):
-		p = re.compile(r'(\s*)(/\*)', re.DOTALL)
+		p = re.compile(r'(\s*)([^\s]*)(\s*)(/\*)', re.DOTALL)
 		m = p.match(txt)
 		if m:
 			return [Token(Token.WHITESPACE, m.group(1)),
-					Token(Token.COMMENT_START, m.group(2))]
+					Token(Token.TXT, m.group(2)),
+					Token(Token.WHITESPACE, m.group(3)),
+					Token(Token.COMMENT_START, m.group(4))]
 		else:
 			return None
 		
@@ -79,7 +81,7 @@ class CssTokenizer:
 		m = p.match(txt)
 		if m:
 			return [Token(Token.WHITESPACE, m.group(1)),
-					Token(Token.SELECTOR, m.group(2)),
+					Token(Token.TXT, m.group(2)),
 					Token(Token.WHITESPACE, m.group(3)),
 					Token(Token.BLOCK_START, m.group(4))]
 		else:
