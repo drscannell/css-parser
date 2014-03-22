@@ -49,7 +49,8 @@ class TestCases:
 			'test_12_multiline_declarations.txt',
 			'test_13_pseudoselector.txt',
 			'test_14_singlequotes.txt',
-			'test_15_doublequotes.txt']
+			'test_15_doublequotes.txt',
+			'test_16_mediaquery.txt']
 
 		for filename in testfiles:
 			yield self.check_tokenize, filename

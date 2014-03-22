@@ -1,0 +1,24 @@
+@media amzn-mobi {
+	.squeeze {width:auto;}
+}
+
+^__EXPECTED
+
+txt
+whitespace
+{
+whitespace
+txt
+whitespace
+{
+txt
+:
+txt
+;
+}
+whitespace
+}
+
+whitespace
+
+$__EXPECTED
