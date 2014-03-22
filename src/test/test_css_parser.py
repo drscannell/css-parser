@@ -50,7 +50,8 @@ class TestCases:
 			'test_13_pseudoselector.txt',
 			'test_14_singlequotes.txt',
 			'test_15_doublequotes.txt',
-			'test_16_mediaquery.txt']
+			'test_16_mediaquery.txt',
+			'test_17_fontface.txt']
 
 		for filename in testfiles:
 			yield self.check_tokenize, filename

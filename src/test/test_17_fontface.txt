@@ -1,0 +1,48 @@
+@font-face {
+	font-family: "Charis";
+	font-weight: normal;
+	font-style: normal;
+	src: url("fonts/charisroman.ttf");
+}
+
+^__EXPECTED
+
+txt
+whitespace
+{
+whitespace
+txt
+:
+whitespace
+"
+txt
+"
+;
+whitespace
+txt
+:
+whitespace
+txt
+;
+whitespace
+txt
+:
+whitespace
+txt
+;
+whitespace
+txt
+:
+whitespace
+txt
+"
+txt
+"
+txt
+;
+whitespace
+}
+
+whitespace
+
+$__EXPECTED
