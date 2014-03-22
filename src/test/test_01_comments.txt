@@ -4,13 +4,18 @@
  */
 /* ======== reset ======== */
 
-
 ^__EXPECTED
+
 /*
 txt
 */
+
 whitespace
+
 /*
 txt
 */
+
+whitespace
+
 $__EXPECTED

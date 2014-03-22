@@ -19,7 +19,7 @@ def read_tokenizer_file(filename):
 	pattern = re.compile(r'^(.*)\^__EXPECTED\n(.*)\$__EXPECTED.*$', re.DOTALL)
 	m = pattern.match(txt)
 	if m:
-		return m.group(1), parse_list(m.group(2))
+		return TokenizerTest(m.group(1), parse_list(m.group(2)))
 	else:
 		raise Exception('could not parse test file')
 
@@ -33,21 +33,19 @@ def parse_list(txt):
 
 class TestCases:
 
-
 	def test_tokenize(self):
-		args = [
-			read_tokenizer_file('test_01.txt'),
-			read_tokenizer_file('test_02.txt')
-				]
+		testfiles = [
+			'test_01_comments.txt',
+			'test_02_trailing_whitespace.txt']
 
-		for args_tuple in args:
-			yield self.check_tokenize, args_tuple
+		for filename in testfiles:
+			yield self.check_tokenize, filename
 	
-	def check_tokenize(self, arg_tuple):
-		txt, expected = arg_tuple
-		test = TokenizerTest(txt, expected)
-		print 'input: %s' % (txt)
-		print 'expected: %s' % (expected)
+	def check_tokenize(self, filename):
+		test = read_tokenizer_file(filename)
+		print 'test file: %s' % (filename)
+		print 'input: %s' % (test.txt)
+		print 'expected: %s' % (test.expected)
 		print 'observed: %s' % ([t.tokentype for t in test.tokens])
 		test.test()
 

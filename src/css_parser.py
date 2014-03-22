@@ -29,6 +29,12 @@ class CssTokenizer:
 			if len(buftokens) > 0:
 				tokens += buftokens
 				buffer = []
+		# capture untokenized trailing characters
+		if len(buffer) > 0:
+			tokens += cls.text(''.join(buffer))
+		# clean up tokens
+		tokens = cls.clear_empty_tokens(tokens)
+		tokens = cls.identify_whitespace_tokens(tokens)
 		return tokens
 				
 	@classmethod
@@ -41,11 +47,10 @@ class CssTokenizer:
 			tokens += cls.comment_end(txt)
 		elif cls.block_start(txt):
 			tokens += cls.block_start(txt)
+		elif cls.declaration(txt):
+			tokens += cls.declaration(txt)
 		elif cls.block_end(txt):
 			tokens += cls.block_end(txt)
-
-		tokens = cls.clear_empty_tokens(tokens)
-		tokens = cls.identify_whitespace_tokens(tokens)
 		return tokens
 
 	@classmethod
@@ -99,6 +104,9 @@ class CssTokenizer:
 		else:
 			return None
 	
+	@classmethod
+	def text(cls, txt):
+		return [Token(Token.TXT, txt)]
 	
 	@classmethod
 	def clear_empty_tokens(cls, tokens):
