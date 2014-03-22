@@ -1,0 +1,22 @@
+a:hover {
+	color:red;
+}
+
+^__EXPECTED
+
+txt
+:
+txt
+whitespace
+{
+whitespace
+txt
+:
+txt
+;
+whitespace
+}
+
+whitespace
+
+$__EXPECTED
