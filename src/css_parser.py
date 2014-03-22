@@ -10,6 +10,7 @@ class Token:
 	PROPERTY = 'prop'
 	VALUE = 'val'
 	TXT = 'txt'
+	WHITESPACE = 'whitespace'
 
 	def __init__(self, tokentype, tokentext):
 		self.tokentype = tokentype
@@ -32,7 +33,7 @@ class CssTokenizer:
 				
 	commentstart = re.compile(r'(.*)(/\*)', re.DOTALL)
 	commentend   = re.compile(r'(.*)(\*/)', re.DOTALL)
-	blockstart   = re.compile(r'([^{}]*)(\{)', re.DOTALL)
+	blockstart   = re.compile(r'(\s*)([^{}]*)(\{)', re.DOTALL)
 	blockend     = re.compile(r'(.*)(\})', re.DOTALL)
 	declaration  = re.compile(r'([^:;]*):([^;]*);', re.DOTALL)
 	
@@ -52,8 +53,9 @@ class CssTokenizer:
 		# block start
 		m = cls.blockstart.match(txt)
 		if m:
-			tokens.append(Token(Token.SELECTOR, m.group(1)))
-			tokens.append(Token(Token.BLOCK_START, m.group(2)))
+			tokens.append(Token(Token.WHITESPACE, m.group(1)))
+			tokens.append(Token(Token.SELECTOR, m.group(2)))
+			tokens.append(Token(Token.BLOCK_START, m.group(3)))
 		# block end
 		m = cls.blockend.match(txt)
 		if m:
@@ -64,7 +66,9 @@ class CssTokenizer:
 		if m:
 			tokens.append(Token(Token.PROPERTY, m.group(1)))
 			tokens.append(Token(Token.VALUE, m.group(2)))
-		return cls.clear_empty_tokens(tokens)
+		tokens = cls.clear_empty_tokens(tokens)
+		tokens = cls.identify_whitespace_tokens(tokens)
+		return tokens
 
 	@classmethod
 	def clear_empty_tokens(cls, tokens):
@@ -76,3 +80,9 @@ class CssTokenizer:
 			tokens.remove(token)
 		return tokens
 
+	@classmethod
+	def identify_whitespace_tokens(cls, tokens):
+		for token in tokens:
+			if re.match(r'^\s*$', token.tokentext):
+				token.tokentype = Token.WHITESPACE
+		return tokens
