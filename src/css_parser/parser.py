@@ -2,6 +2,7 @@ from token import Token
 from tokenizer import Tokenizer
 from stylesheet import StyleSheet
 from rule import Rule
+from declaration import Declaration
 from mediaquery import MediaQuery
 
 class Parser:
@@ -45,7 +46,9 @@ class Parser:
 			should_discard = True
 		elif cls.complete_comment(tokens):
 			should_discard = True
-		elif cls.complete_block(tokens):
+		elif cls.is_mediaquery_block(tokens):
+			raise Exception('not implemented!')
+		elif cls.is_rule_block(tokens):
 			rule = cls.construct_rule(tokens)
 			should_discard = True
 
@@ -60,9 +63,16 @@ class Parser:
 		return False
 
 	@classmethod
-	def complete_block(cls, tokens):
+	def is_mediaquery_block(cls, tokens):
 		starts, ends = cls.get_block_status(tokens)
-		if starts > 0 and starts == ends:
+		if starts == 2 and ends == 2:
+			return True
+		return False
+	
+	@classmethod
+	def is_rule_block(cls, tokens):
+		starts, ends = cls.get_block_status(tokens)
+		if starts == 1 and ends == 1:
 			return True
 		return False
 
@@ -88,7 +98,13 @@ class Parser:
 		selector, declarations = cls.separate_tokens(tokens)
 		rule = Rule(tokens)
 		rule.set_selector_tokens(selector)
+		rule.set_declarations([cls.construct_declaration(d) for d in declarations])
 		return rule
+	
+	@classmethod
+	def construct_declaration(cls, tokens):
+		declaration = Declaration(tokens)
+		return declaration
 
 		
 	@classmethod
@@ -113,11 +129,31 @@ class Parser:
 				declarations.append(declaration)
 				declaration = []
 			elif not in_comment and token.get_type() == Token.BLOCK_END:
-				declarations.append(declaration)
+				if cls.is_terminal_declaration(declaration):
+					declarations.append(declaration)
 				declaration = []
 			else:
 				declaration.append(token)
 		return selector, declarations
+
+	@classmethod
+	def is_terminal_declaration(cls, tokens):
+		has_prop = False
+		has_colon = False
+		has_val = False
+		for typ in [t.get_type() for t in tokens]:
+			if not has_prop:
+				if typ == Token.TXT:
+					has_prop = True
+			elif not has_colon:
+				if typ == Token.COLON:
+					has_colon = True
+			elif not has_val:
+				if typ == Token.TXT:
+					has_val = True
+		if has_prop and has_colon and has_val:
+			return True
+		return False
 
 
 

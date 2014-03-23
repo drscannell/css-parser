@@ -9,9 +9,24 @@ class TestCases:
 		tests = [
 				('/* comment */', 0),
 				('body{margin:0;}', 1),
-				('/*body{margin:0;}*/\ndiv{padding:0;}', 1),
+				('''/*body {
+						margin:0;
+					}*/
+					div {
+						padding:0;
+					}''', 1),
 				('body{margin:0;}\ndiv{padding:0;}', 2),
-				('body{margin:0;}/* comment */div{padding:0;}', 2)
+				('''body {
+						margin:0;
+					}
+				/* comment */
+				div{padding:0;}''', 2),
+				('''@media screen and (min-width:300px) {
+						.page {
+							width: 100%;
+						}
+					}''', 1)
+
 				]
 
 		for test in tests:
@@ -22,6 +37,7 @@ class TestCases:
 		stylesheet = Parser.parse_string(txt)
 		rules = stylesheet.get_rules()
 		observed = len(rules)
+		print 'input: %s' % (txt)
 		print 'expected: %i rules' % (expected)
 		print 'observed: %i rules' % (observed)
 		assert expected == observed
@@ -52,9 +68,6 @@ class TestCases:
 					'txt':'.box:before  {}',
 					'selector':'.box:before'
 				}
-
-
-
 				]
 		for test in tests:
 			yield self.check_selector_parsing, test
@@ -68,3 +81,40 @@ class TestCases:
 		print 'expected selector: %s' % (expected_selector)
 		print 'observed selector: %s' % (observed_selector)
 		assert expected_selector == observed_selector
+
+# -------------------------------------------------------
+
+
+	def test_declaration_count(self):
+		tests = [
+				{
+					'txt':'body{}',
+					'count':0
+				},
+				{
+					'txt':'body{margin:0;}',
+					'count':1
+				},
+				{
+					'txt':'''p.indent {
+						margin:0;
+						/*text-indent: 2em; */
+						text-indent: 1em;
+					}''',
+					'count':2
+				}
+
+				]
+		for test in tests:
+			yield self.check_declaration_count, test
+	
+	def check_declaration_count(self, test):
+		tokens = Tokenizer.tokenize_string(test['txt'])
+		rule = Parser.construct_rule(tokens)
+		expected = test['count']
+		observed = len(rule.get_declarations())
+		print 'input: %s' % (test['txt'])
+		print 'expected: %i declarations' % (expected)
+		print 'observed: %i declarations' % (observed)
+		assert expected == observed
+
