@@ -33,3 +33,5 @@ class Token:
 	def get_linenumber(self):
 		return self.linenumber
 
+	def __str__(self):
+		return self.get_text()

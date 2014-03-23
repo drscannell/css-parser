@@ -12,7 +12,7 @@ class TokenizerTest:
 
 def read_tokenizer_file(filename):
 	src = os.path.dirname(os.path.realpath(__file__))
-	path = os.path.join(src,filename)
+	path = os.path.join(src,'tokenizer_test_files/',filename)
 	f = open(path, 'r')
 	txt = f.read()
 	f.close()
@@ -35,6 +35,7 @@ def parse_list(txt):
 class TestCases:
 
 	def test_tokenize(self):
+		
 		testfiles = [
 			'test_01_comments.txt',
 			'test_02_trailing_whitespace.txt',
