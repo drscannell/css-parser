@@ -1,21 +1,16 @@
 /*
  * test 01
- * 
+ *
  */
 /* ======== reset ======== */
 
 ^__EXPECTED
 
-/*
-txt
-*/
+/* brk
+whitespace txt brk
+whitespace txt brk
+whitespace */ brk
 
-whitespace
-
-/*
-txt
-*/
-
-whitespace
+/* txt */ brk
 
 $__EXPECTED

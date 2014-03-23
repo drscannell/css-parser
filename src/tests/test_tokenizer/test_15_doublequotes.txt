@@ -4,22 +4,8 @@
 
 ^__EXPECTED
 
-txt
-whitespace
-{
-whitespace
-txt
-:
-whitespace
-txt
-"
-txt
-"
-txt
-;
-whitespace
-}
-
-whitespace
+txt whitespace { brk
+whitespace txt : whitespace txt " txt " txt ; brk
+} brk
 
 $__EXPECTED

@@ -4,7 +4,7 @@ from token import Token
 class Tokenizer:
 
 	@classmethod
-	def tokenize(cls, txt):
+	def tokenize_string(cls, txt):
 		tokens = []
 		buffer = []
 		for i, char in enumerate(txt):
@@ -20,13 +20,16 @@ class Tokenizer:
 		# clean up tokens
 		tokens = cls.clear_empty_tokens(tokens)
 		tokens = cls.identify_whitespace_tokens(tokens)
+		tokens = cls.add_linenumbers(tokens)
 		return tokens
 				
 	@classmethod
 	def tokenize_buffer(cls, txt):
 		tokens = []
 		# comment start
-		if cls.comment_start(txt):
+		if cls.linebreak(txt):
+			tokens += cls.linebreak(txt)
+		elif cls.comment_start(txt):
 			tokens += cls.comment_start(txt)
 		elif cls.comment_end(txt):
 			tokens += cls.comment_end(txt)
@@ -43,6 +46,19 @@ class Tokenizer:
 		elif cls.block_end(txt):
 			tokens += cls.block_end(txt)
 		return tokens
+
+	@classmethod
+	def linebreak(cls, txt):
+		p = re.compile(r'^([\t ]*)((?:\S.*)?)([\t ]*)(\n)$')
+		m = p.match(txt)
+		if m:
+			return [Token(Token.WHITESPACE, m.group(1)),
+					Token(Token.TXT, m.group(2)),
+					Token(Token.WHITESPACE, m.group(3)),
+					Token(Token.LINEBREAK, m.group(4))]
+		else:
+			return None
+
 
 	@classmethod
 	def comment_start(cls, txt):
@@ -170,7 +186,17 @@ class Tokenizer:
 	@classmethod
 	def identify_whitespace_tokens(cls, tokens):
 		for token in tokens:
-			if re.match(r'^\s*$', token.tokentext):
-				token.tokentype = Token.WHITESPACE
+			if token.tokentype != 'brk':
+				if re.match(r'^[ \t]*$', token.tokentext):
+					token.tokentype = Token.WHITESPACE
+		return tokens
+
+	@classmethod
+	def add_linenumbers(cls, tokens):
+		linenumber = 1
+		for token in tokens:
+			token.set_linenumber(linenumber)
+			if token.tokentype == 'brk':
+				linenumber += 1
 		return tokens
 

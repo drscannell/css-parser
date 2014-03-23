@@ -4,22 +4,8 @@ body {
 
 ^__EXPECTED
 
-txt
-whitespace
-{
-whitespace
-txt
-whitespace
-/*
-txt
-*/
-whitespace
-:
-txt
-;
-whitespace
-}
-
-whitespace
+txt whitespace { brk
+whitespace txt whitespace /* txt */ whitespace : txt ; brk
+} brk
 
 $__EXPECTED

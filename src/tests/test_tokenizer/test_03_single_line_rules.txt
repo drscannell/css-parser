@@ -4,43 +4,16 @@ body {margin:0;}
 
 body { margin:0; }
 
-
-
-
 ^__EXPECTED
 
-txt
-{
-txt
-:
-txt
-;
-}
+txt { txt : txt ; } brk
 
-whitespace
+brk
 
-txt
-whitespace
-{
-txt
-:
-txt
-;
-}
+txt whitespace { txt : txt ; } brk
 
-whitespace
+brk
 
-txt
-whitespace
-{
-whitespace
-txt
-:
-txt
-;
-whitespace
-}
-
-whitespace
+txt whitespace { whitespace txt : txt ; whitespace } brk
 
 $__EXPECTED

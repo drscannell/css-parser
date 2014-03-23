@@ -2,25 +2,10 @@ body {
 	margin:0; /* comment */
 }
 
-
-
 ^__EXPECTED
 
-txt
-whitespace
-{
-whitespace
-txt
-:
-txt
-;
-whitespace
-/*
-txt
-*/
-whitespace
-}
-
-whitespace
+txt whitespace { brk
+whitespace txt : txt ; whitespace /* txt */ brk
+} brk
 
 $__EXPECTED
