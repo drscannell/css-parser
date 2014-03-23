@@ -1,27 +1,10 @@
 /* ======== reset ======== */
 div,span,blockquote {margin:0;padding:0;}
 
-
 ^__EXPECTED
-/*
-txt
-*/
 
-whitespace
+/* txt */ brk
 
-txt
-whitespace
-{
-txt
-:
-txt
-;
-txt
-:
-txt
-;
-}
-
-whitespace
+txt whitespace { txt : txt ; txt : txt ; } brk
 
 $__EXPECTED

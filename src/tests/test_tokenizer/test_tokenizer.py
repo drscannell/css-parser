@@ -6,7 +6,7 @@ class TokenizerTest:
 	def __init__(self,txt,expected):
 		self.txt = txt
 		self.expected = expected
-		self.tokens = Tokenizer.tokenize(self.txt)
+		self.tokens = Tokenizer.tokenize_string(self.txt)
 	def test(self):
 		assert [t.tokentype for t in self.tokens] == self.expected
 
@@ -16,7 +16,7 @@ def read_tokenizer_file(filename):
 	f = open(path, 'r')
 	txt = f.read()
 	f.close()
-	pattern = re.compile(r'^(.*)\^__EXPECTED\n(.*)\$__EXPECTED.*$', re.DOTALL)
+	pattern = re.compile(r'^(.*)\n\^__EXPECTED\n(.*)\$__EXPECTED.*$', re.DOTALL)
 	m = pattern.match(txt)
 	if m:
 		return TokenizerTest(m.group(1), parse_list(m.group(2)))
@@ -24,8 +24,9 @@ def read_tokenizer_file(filename):
 		raise Exception('could not parse test file')
 
 def parse_list(txt):
+	txt = re.sub(r'\s+', ',', txt)
 	items = []
-	for item in txt.split('\n'):
+	for item in txt.split(','):
 		if item.strip() != '':
 			items.append(item)
 	return items
@@ -63,4 +64,11 @@ class TestCases:
 		print 'expected: %s' % (test.expected)
 		print '\nobserved: %s' % ([t.tokentype for t in test.tokens])
 		test.test()
+
+	def test_add_linenumbers(self):
+		txt = 'body{\nmargin:0;\n}'
+		tokens = Tokenizer.tokenize_string(txt)
+		assert tokens[0].get_linenumber() == 1
+		assert tokens[len(tokens)-1].get_linenumber() == 3
+
 

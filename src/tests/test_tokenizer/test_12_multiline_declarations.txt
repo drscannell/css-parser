@@ -9,30 +9,13 @@ body {
 
 ^__EXPECTED
 
-txt
-whitespace
-{
-whitespace
-txt
-:
-whitespace
-txt
-;
-whitespace
-txt
-whitespace
-:
-txt
-;
-whitespace
-txt
-:
-txt
-whitespace
-;
-whitespace
-}
-
-whitespace
+txt whitespace { brk
+whitespace txt : brk
+whitespace txt ; brk
+whitespace txt brk 
+whitespace : txt ; brk
+whitespace txt : txt brk
+whitespace ; brk
+} brk
 
 $__EXPECTED

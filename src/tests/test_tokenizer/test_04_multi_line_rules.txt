@@ -1,15 +1,3 @@
-body{
-margin:0;
-}
-
-body {
-margin:0;
-}
-
-body {
-margin:0; 
-}
-
 body {
 	margin:0;
 }
@@ -19,71 +7,17 @@ body
 	margin:0;
 }
 
-
 ^__EXPECTED
 
-txt
-{
-whitespace
-txt
-:
-txt
-;
-whitespace
-}
+txt whitespace { brk
+whitespace txt : txt ; brk
+} brk
 
-whitespace
+brk
 
-txt
-whitespace
-{
-whitespace
-txt
-:
-txt
-;
-whitespace
-}
-
-whitespace
-
-txt
-whitespace
-{
-whitespace
-txt
-:
-txt
-;
-whitespace
-}
-
-whitespace
-
-txt
-whitespace
-{
-whitespace
-txt
-:
-txt
-;
-whitespace
-}
-
-whitespace
-
-txt
-whitespace
-{
-whitespace
-txt
-:
-txt
-;
-whitespace
-}
-
-whitespace
+txt brk
+{ brk
+whitespace txt : txt ; brk
+} brk
 
 $__EXPECTED

@@ -4,19 +4,8 @@ a:hover {
 
 ^__EXPECTED
 
-txt
-:
-txt
-whitespace
-{
-whitespace
-txt
-:
-txt
-;
-whitespace
-}
-
-whitespace
+txt : txt whitespace { brk
+whitespace txt : txt ; brk
+} brk
 
 $__EXPECTED
