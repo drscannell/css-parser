@@ -1,7 +1,8 @@
 from token import Token
-from declaration import Declaration
+from declarationfactory import DeclarationFactory
 from rule import Rule
 
+		
 class RuleFactory:
 
 	@classmethod
@@ -9,15 +10,11 @@ class RuleFactory:
 		selector, declarations = cls.separate_tokens(tokens)
 		rule = Rule(tokens)
 		rule.set_selector_tokens(selector)
-		rule.set_declarations([cls.construct_declaration(d) for d in declarations])
+		rule.set_declarations(
+				[DeclarationFactory.construct(d) for d in declarations]
+			)
 		return rule
 	
-	@classmethod
-	def construct_declaration(cls, tokens):
-		declaration = Declaration(tokens)
-		return declaration
-
-		
 	@classmethod
 	def separate_tokens(cls, tokens):
 		selector = []
