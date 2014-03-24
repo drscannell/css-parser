@@ -45,7 +45,7 @@ class Parser:
 			should_discard = True
 		elif types == [Token.LINEBREAK]:
 			should_discard = True
-		elif cls.complete_comment(tokens):
+		elif cls.is_comment(tokens):
 			should_discard = True
 		elif cls.is_mediaquery_block(tokens):
 			raise Exception('not implemented!')
@@ -56,7 +56,7 @@ class Parser:
 		return rule, mediaquery, should_discard
 
 	@classmethod
-	def complete_comment(cls, tokens):
+	def is_comment(cls, tokens):
 		types = [t.get_type() for t in tokens]
 		if types[0] == Token.COMMENT_START:
 			if types[len(types)-1] == Token.COMMENT_END:
@@ -65,20 +65,20 @@ class Parser:
 
 	@classmethod
 	def is_mediaquery_block(cls, tokens):
-		starts, ends = cls.get_block_status(tokens)
+		starts, ends = cls.count_curly_brackets(tokens)
 		if starts == 2 and ends == 2:
 			return True
 		return False
 	
 	@classmethod
 	def is_rule_block(cls, tokens):
-		starts, ends = cls.get_block_status(tokens)
+		starts, ends = cls.count_curly_brackets(tokens)
 		if starts == 1 and ends == 1:
 			return True
 		return False
 
 	@classmethod
-	def get_block_status(cls, tokens):
+	def count_curly_brackets(cls, tokens):
 		types = [t.get_type() for t in tokens]
 		starts = 0
 		ends = 0
