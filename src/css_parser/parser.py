@@ -4,7 +4,7 @@ from stylesheet import StyleSheet
 from rule import Rule
 from rulefactory import RuleFactory
 from declaration import Declaration
-from mediaquery import MediaQuery
+from mediaqueryfactory import MediaQueryFactory
 
 class Parser:
 	
@@ -25,19 +25,17 @@ class Parser:
 		buffer = []
 		for token in tokens:
 			buffer.append(token)
-			rule, mediaquery, should_discard = cls.parse_buffer(buffer)
-			if rule:
-				rules.append(rule)
-			if mediaquery:
-				mediaqueries.append(mediaquery)
-			if should_discard:
+			buf_rules, buf_mediaqueries, is_spent = cls.parse_token_buffer(buffer)
+			rules += buf_rules
+			mediaqueries += buf_mediaqueries
+			if is_spent:
 				buffer = []
 		return rules, mediaqueries
 
 	@classmethod
-	def parse_buffer(cls, tokens):
-		rule = None
-		mediaquery = None
+	def parse_token_buffer(cls, tokens):
+		rules = []
+		mediaqueries = []
 		should_discard = False
 		types = [t.get_type() for t in tokens]
 
@@ -48,12 +46,15 @@ class Parser:
 		elif cls.is_comment(tokens):
 			should_discard = True
 		elif cls.is_mediaquery_block(tokens):
-			raise Exception('not implemented!')
+			querystart, queryend, block = cls.distill_mediaquery_block(tokens)
+			mediaqueries.append(MediaQueryFactory.construct(querystart, queryend))
+			rules, nested_mediaqueries = cls.parse_tokens(block)
+			mediaqueries += nested_mediaqueries
 		elif cls.is_rule_block(tokens):
-			rule = RuleFactory.construct_rule(tokens)
+			rules.append(RuleFactory.construct(tokens))
 			should_discard = True
 
-		return rule, mediaquery, should_discard
+		return rules, mediaqueries, should_discard
 
 	@classmethod
 	def is_comment(cls, tokens):
@@ -94,10 +95,30 @@ class Parser:
 				ends += 1
 		return starts, ends
 
-
-
-
-		
-
-
+	@classmethod
+	def distill_mediaquery_block(cls, tokens):
+		querystart = []
+		queryend = []
+		block = []
+		in_querystart = True
+		in_block = False
+		for token in tokens:
+			if in_querystart:
+				querystart.append(token)
+				if token.get_type() == Token.BLOCK_START:
+					in_querystart = False
+					in_block = True
+			elif in_block:
+				if token.get_type() == Token.BLOCK_END:
+					starts, ends = cls.count_curly_brackets(block)
+					if ends > starts:
+						queryend.append(token)
+						in_block = False
+					else:
+						block.append(token)
+				else:
+					block.append(token)
+			else:
+				queryend.append(token)
+		return querystart, queryend, block
 

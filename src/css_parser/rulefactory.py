@@ -5,7 +5,7 @@ from rule import Rule
 class RuleFactory:
 
 	@classmethod
-	def construct_rule(cls, tokens):
+	def construct(cls, tokens):
 		selector, declarations = cls.separate_tokens(tokens)
 		rule = Rule(tokens)
 		rule.set_selector_tokens(selector)

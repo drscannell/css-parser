@@ -35,7 +35,7 @@ class TestCases:
 	
 	def check_selector_parsing(self, test):
 		tokens = Tokenizer.tokenize_string(test['txt'])
-		rule = RuleFactory.construct_rule(tokens)
+		rule = RuleFactory.construct(tokens)
 		expected_selector = test['selector']
 		observed_selector = rule.get_selector()
 		print 'input: %s' % (test['txt'])
@@ -71,7 +71,7 @@ class TestCases:
 	
 	def check_declaration_count(self, test):
 		tokens = Tokenizer.tokenize_string(test['txt'])
-		rule = RuleFactory.construct_rule(tokens)
+		rule = RuleFactory.construct(tokens)
 		expected = test['count']
 		observed = len(rule.get_declarations())
 		print 'input: %s' % (test['txt'])
