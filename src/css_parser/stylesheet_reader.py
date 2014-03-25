@@ -11,5 +11,5 @@ class StyleSheetReader:
 		f = open(filepath, 'r')
 		txt = f.read()
 		f.close()
-		return read_string(txt)
+		return cls.read_string(txt)
 
