@@ -6,10 +6,10 @@ This is a a CSS modeling utility written in pure Python.
 
 ### StyleSheet
 
-1. [ ] Create from file
-2. [ ] Create from string
-3. [ ] Write to file
-4. [ ] Write to string
+1. [✓] Create from file
+2. [✓] Create from string
+3. [✓] Write to file
+4. [✓] Write to string
 5. [ ] Get rules by selector string
 6. [ ] Remove rule
 7. [ ] Prepend rule
