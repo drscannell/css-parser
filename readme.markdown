@@ -6,24 +6,24 @@ This is a a CSS modeling utility written in pure Python.
 
 ### StyleSheet
 
-1. Create from file
-2. Create from string
-3. Write to file
-4. Write to string
-5. Get rules by selector string
-6. Remove rule
-7. Prepend rule
-8. Append rule
-9. Add rule before/after existing rule
-10. Comment out rule
+1. [ ] Create from file
+2. [ ] Create from string
+3. [ ] Write to file
+4. [ ] Write to string
+5. [ ] Get rules by selector string
+6. [ ] Remove rule
+7. [ ] Prepend rule
+8. [ ] Append rule
+9. [ ] Add rule before/after existing rule
+10. [ ] Comment out rule
 
 ### Rule
 
-1. Get declarations by property
-2. Append declaration
-3. Prepend declaration
-4. Add declaration before/after existing declaration
-5. Comment out declaration
+1. [ ] Get declarations by property
+2. [ ] Append declaration
+3. [ ] Prepend declaration
+4. [ ] Add declaration before/after existing declaration
+5. [ ] Comment out declaration
 
 ## Dependencies
 
