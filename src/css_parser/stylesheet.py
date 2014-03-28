@@ -18,6 +18,15 @@ class StyleSheet:
 		self.tokens += newrule.get_tokens()
 		self.rules.append(newrule)
 
+	def insert_rule_before(self, newrule, existingrule):
+		if newrule.get_mediaquery() != existingrule.get_mediaquery():
+			raise Exception('not yet implemented: insert before with diff mediaquery')
+		firsttoken = existingrule.get_tokens()[0]
+		i = self.tokens.index(firsttoken)
+		for t in reversed(newrule.get_tokens()):
+			self.tokens.insert(i, t)
+		self.rules.insert(i, newrule)
+
 	def insert_rule_after(self, newrule, existingrule):
 		existingruletokens = existingrule.get_tokens()
 		lasttoken = existingruletokens[len(existingruletokens) - 1]
