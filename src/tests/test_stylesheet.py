@@ -47,14 +47,61 @@ class TestCases:
 
 	def test_append_rule(self):
 		tests = [
+				# simple one rule
 				{'input': 'body{margin:0;}',
 				 'to_append': 'p{text-indent:1em;}',
 				 'expected_num_rules': 2,
 				 'expected_string': 'body{margin:0;}p{text-indent:1em;}'},
+				# terminal comment
 				{'input': 'body{margin:0;}/* comment */',
 				 'to_append': 'p{text-indent:1em;}',
 				 'expected_num_rules': 2,
-				 'expected_string': 'body{margin:0;}/* comment */p{text-indent:1em;}'}
+				 'expected_string': 'body{margin:0;}/* comment */p{text-indent:1em;}'},
+				# commented out rule
+				{'input': 'body {' \
+						'	margin:0;' \
+						'}' \
+						'/*p.indent {' \
+						'	text-indent: 1em;' \
+						'}*/',
+				 'to_append': 'p.nonindent {' \
+						 '	text-indent:0;' \
+						 '}',
+				 'expected_num_rules': 2,
+				 'expected_string': 'body {' \
+						'	margin:0;' \
+						'}' \
+						'/*p.indent {' \
+						'	text-indent: 1em;' \
+						'}*/p.nonindent {' \
+						 '	text-indent:0;' \
+						 '}'},
+				# media query
+				{'input': '/* media query */' \
+						'body {' \
+						'	margin:0;' \
+						'}' \
+						'@media amzn-kf8 {' \
+						'	p.indent {' \
+						'		text-indent: 1em;' \
+						'	}' \
+						'}',
+				 'to_append': 'p.nonindent {' \
+						 '	text-indent:0;' \
+						 '}',
+				 'expected_num_rules': 3,
+				 'expected_string': '/* media query */' \
+						'body {' \
+						'	margin:0;' \
+						'}' \
+						'@media amzn-kf8 {' \
+						'	p.indent {' \
+						'		text-indent: 1em;' \
+						'	}' \
+						'}p.nonindent {' \
+						 '	text-indent:0;' \
+						 '}'}
+
 				]
 
 		for test in tests:
@@ -87,7 +134,13 @@ class TestCases:
 				 'insert_after_index': 0,
 				 'to_insert': 'p{text-indent:1em;}',
 				 'expected_num_rules': 2,
+				 'expected_string': 'body{margin:0;}p{text-indent:1em;}/* comment */'},
+				{'input': 'body{margin:0;}/* comment */',
+				 'insert_after_index': 0,
+				 'to_insert': 'p{text-indent:1em;}',
+				 'expected_num_rules': 2,
 				 'expected_string': 'body{margin:0;}p{text-indent:1em;}/* comment */'}
+
 				]
 
 		for test in tests:
