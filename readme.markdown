@@ -14,7 +14,7 @@ This is a a CSS modeling utility written in pure Python.
 6. [ ] Remove rule
 7. [ ] Prepend rule
 8. [✓] Append rule
-9. [ ] Add rule before existing rule
+9. [✓] Add rule before existing rule
 10. [✓] Add rule after existing rule
 11. [ ] Comment out rule
 12. [ ] Add rule with associated media-query
