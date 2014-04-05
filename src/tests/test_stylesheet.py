@@ -125,21 +125,67 @@ class TestCases:
 
 	def test_insert_rule_after(self):
 		tests = [
-				{'input': 'body{margin:0;}',
+				{'descrip': 'one rule',
+				 'input': 'body{margin:0;}',
 				 'existing_index': 0,
 				 'to_insert': 'p{text-indent:1em;}',
 				 'expected_num_rules': 2,
 				 'expected_string': 'body{margin:0;}p{text-indent:1em;}'},
-				{'input': 'body{margin:0;}/* comment */',
+
+				{'descrip': 'rule then comment',
+				 'input': 'body{margin:0;}/* comment */',
 				 'existing_index': 0,
 				 'to_insert': 'p{text-indent:1em;}',
 				 'expected_num_rules': 2,
-				 'expected_string': 'body{margin:0;}p{text-indent:1em;}/* comment */'},
-				{'input': 'body{margin:0;}/* comment */',
-				 'existing_index': 0,
+				 'expected_string': 'body{margin:0;}' \
+						 'p{text-indent:1em;}/* comment */'},
+
+				{'descrip': 'two rules with comment between',
+				 'input': 'body {' \
+						 '	margin:0;' \
+						 '}' \
+						 '/* comment */' \
+						 'div.awesome {' \
+						 '	font-family:Helvetica;' \
+						 '	margin:0;' \
+						 '}',
+				 'existing_index': 1,
 				 'to_insert': 'p{text-indent:1em;}',
-				 'expected_num_rules': 2,
-				 'expected_string': 'body{margin:0;}p{text-indent:1em;}/* comment */'}
+				 'expected_num_rules': 3,
+				 'expected_string': 'body {' \
+						 '	margin:0;' \
+						 '}' \
+						 '/* comment */' \
+						 'div.awesome {' \
+						 '	font-family:Helvetica;' \
+						 '	margin:0;' \
+						 '}p{text-indent:1em;}'},
+
+				{'descrip': 'media query with two rules',
+				 'input': 'body {' \
+						 '	margin:0;' \
+						 '}' \
+						 '@media amzn-kf8 {' \
+						 '	div.awesome {' \
+						 '		font-family:Helvetica;' \
+						 '		margin:0;' \
+						 '	}' \
+						 '	p.indent{text-indent:0;}' \
+						 '}',
+				 'existing_index': 1,
+				 'to_insert': 'p{text-indent:1em;}',
+				 'expected_num_rules': 4,
+				 'expected_string': 'body {' \
+						 '	margin:0;' \
+						 '}' \
+						 '@media amzn-kf8 {' \
+						 '	div.awesome {' \
+						 '		font-family:Helvetica;' \
+						 '		margin:0;' \
+						 '	}' \
+						 '	p.indent{text-indent:0;}' \
+						 '}p{text-indent:1em;}'}
+
 
 				]
 

@@ -135,7 +135,7 @@ class Parser:
 			elif in_block:
 				if token.get_type() == Token.BLOCK_END:
 					starts, ends = cls.count_curly_brackets(block)
-					if ends > starts:
+					if ends == starts:
 						queryend.append(token)
 						in_block = False
 					else:
