@@ -196,7 +196,22 @@ class TestCases:
 				 'expected_string': '/* media query */' \
 						'p{text-indent:1em;}@media amzn-mobi {' \
 						'	div{padding:0;}' \
+						'}'},
+				# insert before media query
+				{'input': '/* media query */' \
+						'@media amzn-mobi {' \
+						'	div{padding:0;}' \
+						'	p{padding:0;}' \
+						'}',
+				 'existing_index': 1,
+				 'to_insert': 'p{text-indent:1em;}',
+				 'expected_num_rules': 3,
+				 'expected_string': '/* media query */' \
+						'p{text-indent:1em;}@media amzn-mobi {' \
+						'	div{padding:0;}' \
+						'	p{padding:0;}' \
 						'}'}
+
 
 				]
 
@@ -205,6 +220,7 @@ class TestCases:
 	
 	def check_insert_rule_before(self, test):
 		stylesheet = StyleSheetReader.read_string(test['input'])
+		print 'num rules: %i' % (len(stylesheet.rules))
 		new_rule_tokens = Tokenizer.tokenize_string(test['to_insert'])
 		new_rule = RuleFactory.construct(new_rule_tokens)
 		existing_rule = stylesheet.get_rules()[test['existing_index']]
