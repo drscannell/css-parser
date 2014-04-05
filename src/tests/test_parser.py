@@ -43,6 +43,22 @@ class TestCases:
 				 '	}' \
 				 '}', 1),
 
+				# media query with two rules
+				('@media screen and (min-width:300px) {' \
+				 '	.page{width: 100%;}' \
+				 '	div{width: 100%;}' \
+				 '}', 2),
+
+				# media query with two rules, spaced
+				('@media screen and (min-width:300px) {' \
+				 '	p { ' \
+				 '		width: 100%;' \
+				 '	}' \
+				 '	div { ' \
+				 '		width: 100%;' \
+				 '	}' \
+				 '}', 2),
+
 				# media query w/ commented rule
 				('@media screen and (min-width:300px) {' \
 				 '	.page {' \

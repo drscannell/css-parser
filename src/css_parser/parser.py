@@ -91,7 +91,7 @@ class Parser:
 	@classmethod
 	def is_mediaquery_block(cls, tokens):
 		starts, ends = cls.count_curly_brackets(tokens)
-		if starts == 2 and ends == 2:
+		if starts > 1 and ends > 1 and starts == ends:
 			return True
 		return False
 	
