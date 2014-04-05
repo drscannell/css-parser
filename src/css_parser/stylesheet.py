@@ -1,3 +1,5 @@
+import re
+
 class StyleSheet:
 
 	def __init__(self):
@@ -54,8 +56,27 @@ class StyleSheet:
 			for t in reversed(tokens):
 				self.tokens.insert(i, t)
 
-	def get_rules(self):
+	def get_rules(self, query=None):
+		if query:
+			return self.get_rules_by_query(query)
 		return self.rules
+
+	def get_rules_by_query(self, query):
+		query = re.sub(r'\s+', ' ', query)
+		matches = []
+		for rule in self.rules:
+			if self.query_rule(query, rule):
+				matches.append(rule)
+		return matches
+
+	def query_rule(self, query, rule):
+		for selector in self.split_selector(rule.get_selector()):
+			if query == selector:
+				return True
+		return False
+
+	def split_selector(self, selector):
+		return [s.strip() for s in selector.split(',')]
 	
 	def set_mediaqueries(self, mediaqueries):
 		self.mediaqueries = mediaqueries

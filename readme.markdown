@@ -10,14 +10,14 @@ This is a a CSS modeling utility written in pure Python.
 2. [✓] Create from string
 3. [✓] Write to file
 4. [✓] Write to string
-5. [ ] Get rules by selector string
+5. [✓] Get rules by query string > `stylesheet.get_rules('.indent')`
 6. [ ] Remove rule
 7. [ ] Prepend rule
 8. [✓] Append rule
-9. [✓] Add rule before existing rule
-10. [✓] Add rule after existing rule
+9. [✓] Add rule before existing rule > `stylesheet.insert_rule_before(newrule, existingrule)`
+10. [✓] Add rule after existing rule > `stylesheet.insert_rule_after(newrule, existingrule)`
 11. [ ] Comment out rule
-12. [ ] Add rule with associated media-query
+12. [✓] Add rule to media-query
 
 ### Rule
 
