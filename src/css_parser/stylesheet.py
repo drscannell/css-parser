@@ -55,6 +55,16 @@ class StyleSheet:
 			i = self.tokens.index(token) + 1
 			for t in reversed(tokens):
 				self.tokens.insert(i, t)
+	
+	def remove_rule(self, rule):
+		i = self.rules.index(rule)
+		self.rules.pop(i)
+		firsttoken = rule.get_tokens()[0]
+		numtokens = len(rule.get_tokens())
+		i = self.tokens.index(firsttoken)
+		for x in xrange(0, numtokens):
+			self.tokens.pop(i)
+
 
 	def get_rules(self, query=None):
 		if query:

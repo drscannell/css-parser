@@ -11,7 +11,7 @@ This is a a CSS modeling utility written in pure Python.
 3. [✓] Write to file
 4. [✓] Write to string
 5. [✓] Get rules by query string > `stylesheet.get_rules('.indent')`
-6. [ ] Remove rule
+6. [✓] Remove rule
 7. [ ] Prepend rule
 8. [✓] Append rule
 9. [✓] Add rule before existing rule > `stylesheet.insert_rule_before(newrule, existingrule)`
