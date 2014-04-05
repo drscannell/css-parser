@@ -10,6 +10,8 @@ class Parser:
 	
 	@classmethod
 	def parse_string(cls, txt):
+		"""Generate StyleSheet from String
+		"""
 		tokens = Tokenizer.tokenize_string(txt)
 		rules, mediaqueries = cls.parse_tokens(tokens)
 		stylesheet = StyleSheet()
@@ -20,6 +22,10 @@ class Parser:
 
 	@classmethod
 	def parse_tokens(cls, tokens):
+		"""Generate ordered rule list from list of tokens
+
+		Responsible for managing and buffering the list of tokens.
+		"""
 		rules = []
 		mediaqueries = []
 		buffer = []
@@ -34,27 +40,45 @@ class Parser:
 
 	@classmethod
 	def parse_token_buffer(cls, tokens):
+		"""Advises parser how to handle token buffer
+		"""
 		rules = []
 		mediaqueries = []
 		should_discard = False
-		types = [t.get_type() for t in tokens]
 
-		if types == [Token.WHITESPACE]:
+		if cls.is_whitespace(tokens):
 			should_discard = True
-		elif types == [Token.LINEBREAK]:
+		elif cls.is_linebreak(tokens):
 			should_discard = True
 		elif cls.is_comment(tokens):
 			should_discard = True
 		elif cls.is_mediaquery_block(tokens):
 			querystart, queryend, block = cls.distill_mediaquery_block(tokens)
-			mediaqueries.append(MediaQueryFactory.construct(querystart, queryend))
+			mediaquery = MediaQueryFactory.construct(querystart, queryend)
+			mediaqueries.append(mediaquery)
+			# recurse inner content to token parser
 			rules, nested_mediaqueries = cls.parse_tokens(block)
+			for rule in rules:
+				rule.set_mediaquery(mediaquery)
+			# not currently handling nested mediaqueries properly
 			mediaqueries += nested_mediaqueries
 		elif cls.is_rule_block(tokens):
 			rules.append(RuleFactory.construct(tokens))
 			should_discard = True
 
 		return rules, mediaqueries, should_discard
+
+	@classmethod
+	def is_whitespace(cls, tokens):
+		if [t.get_type() for t in tokens] == [Token.WHITESPACE]:
+			return True
+		return False
+		
+	@classmethod
+	def is_linebreak(cls, tokens):
+		if [t.get_type() for t in tokens] == [Token.LINEBREAK]:
+			return True
+		return False
 
 	@classmethod
 	def is_comment(cls, tokens):
