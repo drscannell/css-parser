@@ -47,6 +47,8 @@ Developed and tested in v2.7.5.
 
 ## Usage ##
 
+### StyleSheet ###
+
 ```python
 from css_parser.stylesheet import StyleSheet
 
@@ -95,7 +97,11 @@ will be added before/after the media-query,
 depending on whether prepend_rule or 
 append_rule is used.
 '''
+```
 
+### Rule ###
+
+```python
 from css_parser.rule import Rule
 
 # create rule from string
