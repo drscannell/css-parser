@@ -74,12 +74,14 @@ class TestCases:
 			yield self.check_insert_rule_before_into_mediaquery, test
 	
 	def check_insert_rule_before_into_mediaquery(self, test):
+		# setup
 		stylesheet = StyleSheetReader.read_string(test['input'])
 		new_rule_tokens = Tokenizer.tokenize_string(test['to_insert'])
 		existing_rule = stylesheet.get_rules()[test['existing_index']]
 		new_rule = RuleFactory.construct(new_rule_tokens)
 		new_rule.set_mediaquery(existing_rule.get_mediaquery())
-		stylesheet.insert_rule_before(new_rule, existing_rule)
+		# test
+		stylesheet.prepend_rule(new_rule, existing_rule)
 		observed_num_rules = len(stylesheet.get_rules())
 		observed_string = str(stylesheet)
 		for k in test:
