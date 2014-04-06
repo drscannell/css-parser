@@ -133,4 +133,10 @@ preserved, use StyleSheet.from_string() rather than Rule.from_string().
 # write single rule to string
 # includes media-query, if applicable
 rule.to_string()
+
+# get all rules
+alldeclarations = rule.get_declarations()
+
+# get rules by query
+somedeclarations = rule.get_declarations('margin')
 ```	
