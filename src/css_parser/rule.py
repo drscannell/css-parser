@@ -49,6 +49,18 @@ class Rule:
 		self.declarations.pop(i)
 		decl.remove()
 
+	def append_declaration(self, newdecl, existingdecl=None):
+		if existingdecl:
+			raise Exception('not implemented')
+		else:
+			lastdecl = self.declarations[-1]
+			lasttoken = lastdecl.get_tokens()[-1]
+			i = self.tokens.index(lasttoken) + 1
+			for t in reversed(newdecl.get_tokens()):
+				self.tokens.insert(i, t)
+			self.declarations.append(newdecl)
+
+
 	def get_mediaquery(self):
 		return self.mediaquery
 

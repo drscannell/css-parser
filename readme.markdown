@@ -26,8 +26,8 @@ This is a a CSS modeling utility written in pure Python.
 2. [✓] Create multiple rules from a string
 1. [✓] Write Rule to string
 1. [✓] Get declarations by property
-1. [ ] Remove declaration
-2. [ ] Append declaration
+1. [✓] Remove declaration
+2. [✓] Append declaration
 3. [ ] Prepend declaration
 4. [ ] Add declaration before/after existing declaration
 5. [ ] Comment out declaration
@@ -142,4 +142,17 @@ somedeclarations = rule.get_declarations('margin')
 
 # remove declaration
 rule.remove_declaration(declaration)
+
+# append declaration
+rule.append_declaration(declaration)
 ```	
+
+### Declaration ###
+
+```python
+from css_parser.rule import Rule
+
+# create declaration from string
+text = 'margin:1em 5% 1em 5%;'
+declaration = Declaration.from_string(text)
+```
