@@ -6,7 +6,7 @@ This is a a CSS modeling utility written in pure Python.
 
 ```python
 # parse css string
-stylesheet = StyleSheetReader.read_string('body {margin:0;}')
+stylesheet = StyleSheetReader.read_string('body {margin:0;} p.indent{text-indent:1em;}')
 
 # parse css file
 stylesheet = StyleSheetReader.read_filepath('path/to/css/file.css')
@@ -43,7 +43,10 @@ mediaquery = existingrule.get_mediaquery()
 newrule.set_mediaquery(mediaquery)
 stylesheet.append(newrule, mediaquery)
 '''
-If the media-queries don't match, the new rule will be add before/after the media-query, depending on whether prepend_rule or append_rule is used.
+If the media-queries don't match, the new rule 
+will be added before/after the media-query, 
+depending on whether prepend_rule or 
+append_rule is used.
 '''
 ```	
 	
