@@ -1,4 +1,5 @@
 import re
+import stylesheet_reader
 
 class Rule:
 	def __init__(self, tokens=[]):
@@ -6,6 +7,15 @@ class Rule:
 		self.selector_tokens = []
 		self.declarations = []
 		self.mediaquery = None
+
+	@classmethod
+	def from_string(cls, text):
+		stylesheet = stylesheet_reader.StyleSheetReader.read_string(text)
+		if len(stylesheet.get_rules()) == 1:
+			return stylesheet.get_rules()[0]
+		if len(stylesheet.get_rules()) > 1:
+			return stylesheet.get_rules()
+		return None
 	
 	def set_selector_tokens(self, tokens):
 		self.selector_tokens = tokens
@@ -32,3 +42,12 @@ class Rule:
 		txt = ''.join([str(t) for t in tokens])
 		return re.sub('\s+', ' ', txt).strip()
 
+	def to_string(self):
+		tokens = [t for t in self.tokens]
+		if self.mediaquery:
+			m = self.mediaquery
+			tokens = m.get_starttokens() + tokens + m.get_endtokens()
+		return ''.join([str(t) for t in tokens])
+
+	def __str__(self):
+		return ''.join([str(t) for t in self.tokens])

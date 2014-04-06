@@ -5,6 +5,8 @@ This is a a CSS modeling utility written in pure Python.
 ## Usage ##
 
 ```python
+from css_parser.stylesheet import StyleSheet
+
 # parse css string
 text = 'body {margin:0;} p.indent{text-indent:1em;}'
 stylesheet = StyleSheet.from_string(text)
@@ -43,12 +45,44 @@ stylesheet.prepend_rule(newrule, existingrule)
 mediaquery = existingrule.get_mediaquery()
 newrule.set_mediaquery(mediaquery)
 stylesheet.append(newrule, mediaquery)
+
 '''
 If the media-queries don't match, the new rule 
 will be added before/after the media-query, 
 depending on whether prepend_rule or 
 append_rule is used.
 '''
+
+from css_parser.rule import Rule
+
+# create rule from string
+text = 'blockquote {margin:1em 5% 1em 5%;}'
+rule = Rule.from_string(text)
+
+# media-queries are retained
+text = '@media all {blockquote {margin:1em 5% 1em 5%;} }'
+rule = Rule.from_string(text)
+
+# multiple rules can be generated in this way, if desired
+text = '/* multiple rules */' \
+	'@media all {' \
+	'	blockquote {' \
+	'		margin:1em 5% 1em 5%;' \
+	'	}' \
+	'	p {' \
+	'		color:blue;' \
+	'	}' \
+	'}'
+rule = Rule.from_string(text)
+
+'''
+Note: If it is important that comments and whitespace be
+preserved, use StyleSheet.from_string() rather than Rule.from_string().
+'''
+
+# write single rule to string
+# includes media-query, if applicable
+rule.to_string()
 ```	
 	
 ## Features
@@ -71,6 +105,7 @@ append_rule is used.
 
 ### Rule
 
+1. [ ] Create Rule from string
 1. [ ] Get declarations by property
 2. [ ] Append declaration
 3. [ ] Prepend declaration
