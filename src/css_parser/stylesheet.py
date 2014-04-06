@@ -7,6 +7,8 @@ class StyleSheet:
 		self.rules = []
 		self.tokens = []
 	
+	# ------------- public -------------
+	
 	def set_tokens(self, tokens):
 		self.tokens = tokens
 	
@@ -16,9 +18,21 @@ class StyleSheet:
 	def set_rules(self, rules):
 		self.rules = rules
 
-	def append_rule(self, newrule):
-		self.tokens += newrule.get_tokens()
-		self.rules.append(newrule)
+	def prepend_rule(self, newrule, existingrule=None):
+		if existingrule:
+			self.insert_rule_before(newrule, existingrule)
+		else:
+			self.tokens = newrule.get_tokens() + self.tokens
+			self.rules.insert(0, newrule)
+
+	def append_rule(self, newrule, existingrule=None):
+		if existingrule:
+			self.insert_rule_after(newrule, existingrule)
+		else:
+			self.tokens += newrule.get_tokens()
+			self.rules.append(newrule)
+
+	# ------------- private -------------
 
 	def insert_rule_before(self, newrule, existingrule):
 		firsttoken = None
