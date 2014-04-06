@@ -25,7 +25,8 @@ This is a a CSS modeling utility written in pure Python.
 1. [✓] Create Rule from string
 2. [✓] Create multiple rules from a string
 1. [✓] Write Rule to string
-1. [ ] Get declarations by property
+1. [✓] Get declarations by property
+1. [ ] Remove declaration
 2. [ ] Append declaration
 3. [ ] Prepend declaration
 4. [ ] Add declaration before/after existing declaration

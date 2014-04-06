@@ -32,8 +32,17 @@ class Rule:
 	def get_selector(self):
 		return self.stringify_tokens(self.selector_tokens)
 
-	def get_declarations(self):
+	def get_declarations(self, query=None):
+		if query:
+			return self._get_declarations_by_query(query)
 		return self.declarations
+
+	def _get_declarations_by_query(self, query):
+		matches = []
+		for declaration in self.declarations:
+			if declaration.get_property().strip() == query.strip():
+				matches.append(declaration)
+		return matches
 
 	def get_mediaquery(self):
 		return self.mediaquery

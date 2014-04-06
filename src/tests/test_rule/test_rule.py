@@ -1,6 +1,3 @@
-import os
-import re
-from css_parser.stylesheet import StyleSheet
 from css_parser.rule import Rule
 
 class TestCases:
