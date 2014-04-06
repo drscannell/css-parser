@@ -44,6 +44,11 @@ class Rule:
 				matches.append(declaration)
 		return matches
 
+	def remove_declaration(self, decl):
+		i = self.declarations.index(decl)
+		self.declarations.pop(i)
+		decl.remove()
+
 	def get_mediaquery(self):
 		return self.mediaquery
 

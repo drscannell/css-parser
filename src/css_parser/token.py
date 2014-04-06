@@ -20,6 +20,7 @@ class Token:
 		self.tokentype = tokentype
 		self.tokentext = tokentext
 		self.linenumber = linenumber
+		self._is_removed = False
 	
 	def get_text(self):
 		return self.tokentext
@@ -33,5 +34,10 @@ class Token:
 	def get_linenumber(self):
 		return self.linenumber
 
+	def remove(self):
+		self._is_removed = True
+
 	def __str__(self):
+		if self._is_removed:
+			return ''
 		return self.get_text()

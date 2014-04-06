@@ -41,7 +41,9 @@ class RuleFactory:
 					declarations.append(declaration)
 				declaration = []
 			else:
-				declaration.append(token)
+				# don't include leading whitespace in declaration
+				if len(declaration) > 0 or token.get_type() != Token.WHITESPACE:
+					declaration.append(token)
 		return selector, declarations
 
 	@classmethod

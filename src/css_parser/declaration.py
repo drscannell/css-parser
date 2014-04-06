@@ -12,3 +12,7 @@ class Declaration:
 
 	def get_value(self):
 		return self._val
+
+	def remove(self):
+		for t in self.get_tokens():
+			t.remove()
