@@ -1,4 +1,6 @@
 import re
+import stylesheet_reader
+import stylesheet_writer
 
 class StyleSheet:
 
@@ -7,8 +9,18 @@ class StyleSheet:
 		self.rules = []
 		self.tokens = []
 	
-	# ------------- public -------------
+	# ------------- factory methods -------------
+
+	@classmethod
+	def from_string(cls, text):
+		return stylesheet_reader.StyleSheetReader.read_string(text)
+
+	@classmethod
+	def from_file(cls, filepath):
+		return stylesheet_reader.StyleSheetReader.read_filepath(filepath)
 	
+	# ------------- public -------------
+
 	def set_tokens(self, tokens):
 		self.tokens = tokens
 	
@@ -48,6 +60,12 @@ class StyleSheet:
 		else:
 			self.tokens += newrule.get_tokens()
 			self.rules.append(newrule)
+	
+	def to_string(self):
+		return str(self)
+
+	def to_file(self, filepath):
+		stylesheet_writer.StyleSheetWriter.write_filepath(self, filepath)
 
 	def __str__(self):
 		return ''.join([str(t) for t in self.tokens])

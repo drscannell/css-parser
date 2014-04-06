@@ -1,10 +1,10 @@
-from parser import Parser
+import parser
 
 class StyleSheetReader:
 
 	@classmethod
 	def read_string(cls, txt):
-		return Parser.parse_string(txt)
+		return parser.Parser.parse_string(txt)
 
 	@classmethod
 	def read_filepath(cls, filepath):

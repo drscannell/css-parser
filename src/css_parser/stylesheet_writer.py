@@ -1,5 +1,3 @@
-from parser import Parser
-
 class StyleSheetWriter:
 
 	@classmethod

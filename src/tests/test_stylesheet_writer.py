@@ -1,7 +1,6 @@
 import os
 import tempfile
-from css_parser.stylesheet_reader import StyleSheetReader
-from css_parser.stylesheet_writer import StyleSheetWriter
+from css_parser.stylesheet import StyleSheet
 
 class TestCases:
 
@@ -13,8 +12,8 @@ class TestCases:
 				'p.indent {text-indent:1em;}'\
 				'/* terminal comment */'
 
-		stylesheet = StyleSheetReader.read_string(expected)
-		observed = StyleSheetWriter.write_string(stylesheet)
+		stylesheet = StyleSheet.from_string(expected)
+		observed = stylesheet.to_string()
 		assert expected == observed
 
 
@@ -25,9 +24,9 @@ class TestCases:
 				'' \
 				'p.indent {text-indent:1em;}'\
 				'/* terminal comment */'
-		stylesheet = StyleSheetReader.read_string(expected)
+		stylesheet = StyleSheet.from_string(expected)
 		handle, tmp_path = tempfile.mkstemp()
-		StyleSheetWriter.write_filepath(stylesheet, tmp_path)
+		stylesheet.to_file(tmp_path)
 
 		f = open(tmp_path, 'r')
 		observed = f.read()

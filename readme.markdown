@@ -6,16 +6,17 @@ This is a a CSS modeling utility written in pure Python.
 
 ```python
 # parse css string
-stylesheet = StyleSheetReader.read_string('body {margin:0;} p.indent{text-indent:1em;}')
+text = 'body {margin:0;} p.indent{text-indent:1em;}'
+stylesheet = StyleSheet.from_string(text)
 
 # parse css file
-stylesheet = StyleSheetReader.read_filepath('path/to/css/file.css')
+stylesheet = StyleSheet.from_file('path/to/css/file.css')
 
 # write to string
-txt = StyleSheetWriter.write_string(stylesheet)
+txt = stylesheet.to_string()
 
 # write to file
-StyleSheetWriter.write_filepath(stylesheet, 'path/to/css/file.css')
+stylesheet.to_file('path/to/css/file.css')
 
 # get all rules
 allrules = stylesheet.get_rules()
@@ -27,16 +28,16 @@ somerules = stylesheet.get_rules('p.indent')
 stylesheet.remove_rule(rule)
 
 # append rule
-stylesheet.append(newrule)
+stylesheet.append_rule(newrule)
 
 # append rule after existing rule
-stylesheet.append(newrule, existingrule)
+stylesheet.append_rule(newrule, existingrule)
 
 # prepend rule
-stylesheet.prepend(newrule)
+stylesheet.prepend_rule(newrule)
 
 # prepend rule before existing rule
-stylesheet.prepend(newrule, existingrule)
+stylesheet.prepend_rule(newrule, existingrule)
 
 # insert rule into media-query
 mediaquery = existingrule.get_mediaquery()
@@ -58,12 +59,12 @@ append_rule is used.
 2. [✓] Create from string
 3. [✓] Write to file
 4. [✓] Write to string
-5. [✓] Get rules by query string > `stylesheet.get_rules('.indent')`
+5. [✓] Get rules by query string
 6. [✓] Remove rule
 7. [✓] Prepend rule
 8. [✓] Append rule
-9. [✓] Add rule before existing rule > `stylesheet.insert_rule_before(newrule, existingrule)`
-10. [✓] Add rule after existing rule > `stylesheet.insert_rule_after(newrule, existingrule)`
+9. [✓] Add rule before existing rule
+10. [✓] Add rule after existing rule
 11. [ ] Comment out rule
 12. [✓] Add rule to media-query
 13. [ ] Add rule with new media-query

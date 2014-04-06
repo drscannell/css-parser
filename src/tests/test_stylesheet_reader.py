@@ -1,6 +1,6 @@
 import os
 import tempfile
-from css_parser.stylesheet_reader import StyleSheetReader
+from css_parser.stylesheet import StyleSheet
 
 class TestCases:
 
@@ -12,7 +12,7 @@ class TestCases:
 				'p.indent {text-indent:1em;}'\
 				'/* terminal comment */'
 
-		stylesheet = StyleSheetReader.read_string(expected)
+		stylesheet = StyleSheet.from_string(expected)
 		assert expected == str(stylesheet)
 
 
@@ -28,6 +28,6 @@ class TestCases:
 		f.write(expected)
 		f.close()
 
-		stylesheet = StyleSheetReader.read_filepath(tmp_path)
+		stylesheet = StyleSheet.from_file(tmp_path)
 		assert expected == str(stylesheet)
 		os.remove(tmp_path)
