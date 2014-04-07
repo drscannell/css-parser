@@ -68,12 +68,33 @@ class Rule:
 		txt = ''.join([str(t) for t in tokens])
 		return re.sub('\s+', ' ', txt).strip()
 
-	def to_string(self):
+	def to_string(self, indent=None):
+		if indent:
+			return self._to_string_pretty(indent)
 		tokens = [t for t in self.tokens]
 		if self.mediaquery:
 			m = self.mediaquery
 			tokens = m.get_starttokens() + tokens + m.get_endtokens()
 		return ''.join([str(t) for t in tokens])
+
+	def _to_string_pretty(self, indent):
+		self._indent = indent
+		pieces = []
+		if self.mediaquery:
+			pieces += self.mediaquery.get_starttokens()
+		pieces += self.tokens
+		if self.mediaquery:
+			pieces += self.mediaquery.get_endtokens()
+		txt =  ''.join([str(p) for p in pieces])
+		txt = re.sub(r'\s', '', txt)
+		txt = re.sub(r'\{', ' {\n', txt)
+		txt = re.sub(r';', ';\n', txt)
+		txt = re.sub(r'(\{)(.*)(\n\})', self._indentify, txt, flags=re.DOTALL)
+		return txt
+
+	def _indentify(self, match):
+		inner = re.sub(r'\n', '\n%s'%(self._indent), match.group(2))
+		return match.group(1) + inner + match.group(3)
 
 	def __str__(self):
 		return ''.join([str(t) for t in self.tokens])
