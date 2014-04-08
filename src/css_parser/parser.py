@@ -62,6 +62,7 @@ class Parser:
 				rule.set_mediaquery(mediaquery)
 			# not currently handling nested mediaqueries properly
 			mediaqueries += nested_mediaqueries
+			should_discard = True
 		elif cls.is_rule_block(tokens):
 			rules.append(RuleFactory.construct(tokens))
 			should_discard = True
