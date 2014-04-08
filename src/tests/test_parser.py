@@ -37,10 +37,10 @@ class TestCases:
 				div{padding:0;}''', 2),
 
 				# media query
-				('@media screen and (min-width:300px) {' \
-				 '	.page {' \
-				 '		width: 100%;' \
-				 '	}' \
+				('\n@media screen and (min-width:300px) {\n' \
+				 '	.page {\n' \
+				 '		width: 100%;\n' \
+				 '	}\n\n\n\n\n' \
 				 '}', 1),
 
 				# media query with two rules
@@ -83,7 +83,19 @@ class TestCases:
 				 '		width: 100%;' \
 				 '	}' \
 				 '	/* } */' \
-				 '}', 1)
+				 '}', 1),
+
+				# rule with a bunch of linebreaks after
+				('body {margin:0;}\n\n\n\n', 1),
+
+				# media query with a bunch of linebreaks after
+				('@media amzn-mobi {.mobi-hide {display:none;}}\n\n\n\n', 1),
+
+				# media query with a bunch of linebreaks then another rule
+				('@media amzn-mobi {.mobi-hide {display:none;}}\n\n\n\n' \
+						'p.indent {margin:0;}', 2)
+
+
 				]
 
 		for test in tests:
