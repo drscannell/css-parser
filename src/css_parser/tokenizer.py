@@ -12,13 +12,14 @@ class Tokenizer:
 			bufstr = ''.join(buffer)
 			buftokens= cls.tokenize_buffer(bufstr)
 			if len(buftokens) > 0:
-				tokens += buftokens
+				for t in buftokens:
+					if t.tokentext != '':
+						tokens.append(t)
 				buffer = []
 		# capture untokenized trailing characters
 		if len(buffer) > 0:
 			tokens += cls.text(''.join(buffer))
 		# clean up tokens
-		tokens = cls.clear_empty_tokens(tokens)
 		tokens = cls.identify_whitespace_tokens(tokens)
 		tokens = cls.add_linenumbers(tokens)
 		return tokens
@@ -173,16 +174,6 @@ class Tokenizer:
 	def text(cls, txt):
 		return [Token(Token.TXT, txt)]
 	
-	@classmethod
-	def clear_empty_tokens(cls, tokens):
-		to_remove = []
-		for token in tokens:
-			if token.tokentext == '':
-				to_remove.append(token)
-		for token in to_remove:
-			tokens.remove(token)
-		return tokens
-
 	@classmethod
 	def identify_whitespace_tokens(cls, tokens):
 		for token in tokens:
