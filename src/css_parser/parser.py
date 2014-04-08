@@ -1,6 +1,6 @@
 from token import Token
 from tokenizer import Tokenizer
-from stylesheet import StyleSheet
+import stylesheet as stylesheetmodule
 from rule import Rule
 from rulefactory import RuleFactory
 from declaration import Declaration
@@ -14,7 +14,7 @@ class Parser:
 		"""
 		tokens = Tokenizer.tokenize_string(txt)
 		rules, mediaqueries = cls.parse_tokens(tokens)
-		stylesheet = StyleSheet()
+		stylesheet = stylesheetmodule.StyleSheet()
 		stylesheet.set_tokens(tokens)
 		stylesheet.set_rules(rules)
 		stylesheet.set_mediaqueries(mediaqueries)
