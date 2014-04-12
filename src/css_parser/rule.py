@@ -31,7 +31,8 @@ class Rule(css_structure.CssStructure):
 		return self.tokens
 
 	def get_selector(self):
-		return self.stringify_tokens(self.selector_tokens)
+		txt = ''.join([str(t) for t in self.selector_tokens])
+		return re.sub('\s+', ' ', txt).strip()
 
 	def get_declarations(self, query=None):
 		if query:
@@ -43,24 +44,19 @@ class Rule(css_structure.CssStructure):
 		self.declarations.pop(i)
 		decl.remove()
 
-	def append_declaration(self, newdecl, existingdecl=None):
-		if existingdecl:
-			self._insert_decl_after(newdecl, existingdecl)
+	def append_declaration(self, new, existing=None):
+		if existing:
+			self._insert_decl_after(new, existing)
 		else:
-			lastdecl = self.declarations[-1]
-			lasttoken = lastdecl.get_tokens()[-1]
+			last = self.declarations[-1]
+			lasttoken = last.get_tokens()[-1]
 			i = self.tokens.index(lasttoken) + 1
-			for t in reversed(newdecl.get_tokens()):
+			for t in reversed(new.get_tokens()):
 				self.tokens.insert(i, t)
-			self.declarations.append(newdecl)
-
+			self.declarations.append(new)
 
 	def get_mediaquery(self):
 		return self.mediaquery
-
-	def stringify_tokens(self, tokens):
-		txt = ''.join([str(t) for t in tokens])
-		return re.sub('\s+', ' ', txt).strip()
 
 	def to_string(self):
 		tokens = [t for t in self.tokens]
@@ -68,10 +64,6 @@ class Rule(css_structure.CssStructure):
 			m = self.mediaquery
 			tokens = m.get_starttokens() + tokens + m.get_endtokens()
 		return ''.join([str(t) for t in tokens])
-
-	def __str__(self):
-		return ''.join([str(t) for t in self.tokens])
-
 
 	# ------------- private -------------
 
@@ -83,9 +75,7 @@ class Rule(css_structure.CssStructure):
 		return matches
 
 	def _insert_decl_after(self, new, existing):
-		existingtokens = existing.get_tokens()
-		lasttoken = existingtokens[len(existingtokens) - 1]
-		self._insert_tokens_after(new.get_tokens(), lasttoken)
+		self._insert_tokens_after(new, existing)
 		i = self.declarations.index(existing)
 		self.declarations.insert(i, new)
 
