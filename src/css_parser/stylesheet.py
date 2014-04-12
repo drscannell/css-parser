@@ -1,8 +1,9 @@
+import css_structure
 import re
 import stylesheet_reader
 import stylesheet_writer
 
-class StyleSheet:
+class StyleSheet(css_structure.CssStructure):
 
 	def __init__(self):
 		self.mediaqueries = []
@@ -95,19 +96,6 @@ class StyleSheet:
 		i = self.rules.index(existingrule)
 		self.rules.insert(i, newrule)
 	
-	def _insert_tokens_before(self, tokens, token):
-		i = self.tokens.index(token)
-		for t in reversed(tokens):
-			self.tokens.insert(i, t)
-	
-	def _insert_tokens_after(self, tokens, token):
-		if token == self.tokens[-1]:
-			self.tokens += tokens
-		else:
-			i = self.tokens.index(token) + 1
-			for t in reversed(tokens):
-				self.tokens.insert(i, t)
-
 	def _get_rules_by_query(self, query):
 		query = re.sub(r'\s+', ' ', query)
 		matches = []
