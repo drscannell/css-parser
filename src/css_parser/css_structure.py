@@ -4,7 +4,10 @@ class CssStructure:
 	def _insert_tokens_before(self, new, existing):
 		tokens = new.get_tokens()
 		firsttoken = existing.get_tokens()[0]
-		i = self.tokens.index(firsttoken)
+		self._insert_tokens_before_token(tokens, firsttoken)
+	
+	def _insert_tokens_before_token(self, tokens, token):
+		i = self.tokens.index(token)
 		for t in reversed(tokens):
 			self.tokens.insert(i, t)
 	
@@ -12,10 +15,13 @@ class CssStructure:
 		tokens = new.get_tokens()
 		existingtokens = existing.get_tokens()
 		lasttoken = existingtokens[-1]
-		if lasttoken == self.tokens[-1]:
+		self._insert_tokens_after_token(tokens, lasttoken)
+	
+	def _insert_tokens_after_token(self, tokens, token):
+		if token == self.tokens[-1]:
 			self.tokens += tokens
 		else:
-			i = self.tokens.index(lasttoken) + 1
+			i = self.tokens.index(token) + 1
 			for t in reversed(tokens):
 				self.tokens.insert(i, t)
 

@@ -1,6 +1,7 @@
 import css_structure
 import re
 import stylesheet_reader
+import token
 
 class Rule(css_structure.CssStructure):
 	def __init__(self, tokens=[]):
@@ -44,16 +45,33 @@ class Rule(css_structure.CssStructure):
 		self.declarations.pop(i)
 		decl.remove()
 
+	def prepend_declaration(self, new, existing=None):
+		if existing:
+			self._insert_decl_before(new, existing)
+		else:
+			blockstart = self._get_block_start()
+			self._insert_tokens_after_token(new.get_tokens(), blockstart)
+			self.declarations.insert(0, new)
+
 	def append_declaration(self, new, existing=None):
 		if existing:
 			self._insert_decl_after(new, existing)
 		else:
-			last = self.declarations[-1]
-			lasttoken = last.get_tokens()[-1]
-			i = self.tokens.index(lasttoken) + 1
-			for t in reversed(new.get_tokens()):
-				self.tokens.insert(i, t)
+			blockend = self._get_block_end()
+			self._insert_tokens_before_token(new.get_tokens(), blockend)
 			self.declarations.append(new)
+	
+	def _get_block_start(self):
+		for t in self.get_tokens():
+			if t.get_type() == token.Token.BLOCK_START:
+				return t
+		return None
+
+	def _get_block_end(self):
+		for t in self.get_tokens():
+			if t.get_type() == token.Token.BLOCK_END:
+				return t
+		return None
 
 	def get_mediaquery(self):
 		return self.mediaquery
@@ -74,6 +92,11 @@ class Rule(css_structure.CssStructure):
 				matches.append(declaration)
 		return matches
 
+	def _insert_decl_before(self, new, existing):
+		self._insert_tokens_before(new, existing)
+		i = self.declarations.index(existing)
+		self.declarations.insert(i, new)
+	
 	def _insert_decl_after(self, new, existing):
 		self._insert_tokens_after(new, existing)
 		i = self.declarations.index(existing)
