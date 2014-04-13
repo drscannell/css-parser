@@ -5,7 +5,7 @@ class TestCases:
 
 	# ----------------------------------------
 
-	def test_append_declaration(self):
+	def test_prepend_declaration(self):
 		tests = [
 				# two declarations, add one
 				{'input': 'body{' \
@@ -14,21 +14,10 @@ class TestCases:
 						'}',
 				 'to_add': 'color:blue;',
 				 'existing_index': None,
-				 'expected': 'body{' \
+				 'expected': 'body{color:blue;' \
 						'	margin:0;' \
-						'	padding:0;color:blue;' \
+						'	padding:0;' \
 						'}'
-					},
-				{'input': 'body{\n' \
-						'	margin:0;\n' \
-						'	padding:0;\n' \
-						'}',
-				 'to_add': 'color:blue;',
-				 'existing_index': None,
-				 'expected': 'body{\n' \
-						'	margin:0;\n' \
-						'	padding:0;\n' \
-						'color:blue;}'
 					},
 				{'input': 'body{' \
 						'	margin:0;' \
@@ -37,22 +26,22 @@ class TestCases:
 				 'to_add': 'color:blue;',
 				 'existing_index': 0,
 				 'expected': 'body{' \
-						'	margin:0;color:blue;' \
+						'	color:blue;margin:0;' \
 						'	padding:0;' \
 						'}'
 					}
 				]
 
 		for test in tests:
-			yield self.check_append_declaration, test
+			yield self.check_prepend_declaration, test
 	
-	def check_append_declaration(self, test):
+	def check_prepend_declaration(self, test):
 		rule = Rule.from_string(test['input'])
 		decl = Declaration.from_string(test['to_add'])
 		existing_rule = None
 		if test['existing_index'] != None:
 			existing_rule = rule.declarations[test['existing_index']]
-		rule.append_declaration(decl, existing_rule)
+		rule.prepend_declaration(decl, existing_rule)
 		observed = rule.to_string()
 		for k in test:
 			print '%s: %s' % (k, test[k])
@@ -60,6 +49,7 @@ class TestCases:
 		assert observed == test['expected']
 
 	# ----------------------------------------
+
 
 
 

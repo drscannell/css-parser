@@ -14,11 +14,11 @@ This is a a CSS modeling utility written in pure Python.
 6. [✓] Remove rule
 7. [✓] Prepend rule
 8. [✓] Append rule
-9. [✓] Add rule before existing rule
-10. [✓] Add rule after existing rule
-11. [ ] Comment out rule
-12. [✓] Add rule to media-query
-13. [ ] Add rule with new media-query
+9. [✓] Add rule before/after existing rule
+10. [ ] Comment out rule
+11. [✓] Add rule to media-query
+12. [ ] Add rule with new media-query
+13. [ ] Pretty-Printing
 
 ### Rule
 
@@ -28,9 +28,10 @@ This is a a CSS modeling utility written in pure Python.
 1. [✓] Get declarations by property
 1. [✓] Remove declaration
 2. [✓] Append declaration
-3. [ ] Prepend declaration
-4. [ ] Add declaration before/after existing declaration
+3. [✓] Prepend declaration
+4. [✓] Add declaration before/after existing declaration
 5. [ ] Comment out declaration
+6. [ ] Pretty-Printing
 
 
 
@@ -145,6 +146,15 @@ rule.remove_declaration(declaration)
 
 # append declaration
 rule.append_declaration(declaration)
+
+# insert declaration after existing declaration
+rule.append_declaration(declaration, existingdeclaration)
+
+# prepend declaration
+rule.append_declaration(declaration)
+
+# insert declaration before existing declaration
+rule.prepend_declaration(declaration, existingdeclaration)
 ```	
 
 ### Declaration ###
@@ -155,4 +165,10 @@ from css_parser.rule import Rule
 # create declaration from string
 text = 'margin:1em 5% 1em 5%;'
 declaration = Declaration.from_string(text)
+
+# get property
+prop_string = declaration.get_property()
+
+# get value
+val_string = declaration.get_value()
 ```
